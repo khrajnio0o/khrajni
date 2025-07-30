@@ -1,0 +1,704 @@
+[
+  {
+    "id": "cairo",
+    "translations": {
+      "en": {
+        "name": "Cairo",
+        "description": "The capital of Egypt and its largest city, home to the Pyramids, Sphinx, and Egyptian Museum"
+      },
+      "ar": {
+        "name": "القاهرة",
+        "description": "عاصمة مصر وأكبر مدنها، تضم الأهرامات وأبو الهول والمتحف المصري"
+      },
+      "fr": {
+        "name": "Le Caire",
+        "description": "La capitale de l'Égypte et sa plus grande ville, abritant les pyramides, le Sphinx et le musée égyptien"
+      },
+      "ru": {
+        "name": "Каир",
+        "description": "Столица Египта и его крупнейший город, где находятся пирамиды, Сфинкс и Египетский музей"
+      },
+      "de": {
+        "name": "Kairo",
+        "description": "Die Hauptstadt Ägyptens und ihre größte Stadt, Heimat der Pyramiden, des Sphinx und des Ägyptischen Museums"
+      }
+    },
+    "imageUrl": "assets/images/states/cairo.jpg",
+    "locationCount": 25
+  },
+  {
+    "id": "giza",
+    "translations": {
+      "en": {
+        "name": "Giza",
+        "description": "Home to the Giza Pyramids and the Sphinx, one of the Seven Wonders of the World"
+      },
+      "ar": {
+        "name": "الجيزة",
+        "description": "موطن أهرامات الجيزة وأبو الهول، من عجائب الدنيا السبع"
+      },
+      "fr": {
+        "name": "Gizeh",
+        "description": "Accueil des pyramides de Gizeh et du Sphinx, l'une des Sept Merveilles du monde"
+      },
+      "ru": {
+        "name": "Гиза",
+        "description": "Дом пирамид Гизы и Сфинкса, одно из семи чудес света"
+      },
+      "de": {
+        "name": "Gizeh",
+        "description": "Heimat der Gizeh-Pyramiden und der Sphinx, eines der sieben Weltwunder"
+      }
+    },
+    "imageUrl": "assets/images/states/giza.jpg",
+    "locationCount": 15
+  },
+  {
+    "id": "alexandria",
+    "translations": {
+      "en": {
+        "name": "Alexandria",
+        "description": "The Bride of the Mediterranean, home to the Alexandria Library and Qaitbay Citadel"
+      },
+      "ar": {
+        "name": "الإسكندرية",
+        "description": "عروس البحر المتوسط، تضم مكتبة الإسكندرية وقلعة قايتباي"
+      },
+      "fr": {
+        "name": "Alexandrie",
+        "description": "La Fiancée de la Méditerranée, abritant la bibliothèque d'Alexandrie et la citadelle de Qaitbay"
+      },
+      "ru": {
+        "name": "Александрия",
+        "description": "Невеста Средиземного моря, где находятся Александрийская библиотека и цитадель Кайтбей"
+      },
+      "de": {
+        "name": "Alexandria",
+        "description": "Die Braut des Mittelmeers, Heimat der Alexandrinischen Bibliothek und der Zitadelle Qaitbay"
+      }
+    },
+    "imageUrl": "assets/images/states/alexandria.jpg",
+    "locationCount": 18
+  },
+  {
+    "id": "luxor",
+    "translations": {
+      "en": {
+        "name": "Luxor",
+        "description": "The open-air museum, home to the Karnak Temples and Valley of the Kings"
+      },
+      "ar": {
+        "name": "الأقصر",
+        "description": "متحف العالم المفتوح، تضم معابد الكرنك ووادي الملوك"
+      },
+      "fr": {
+        "name": "Louxor",
+        "description": "Le musée en plein air, abritant les temples de Karnak et la Vallée des Rois"
+      },
+      "ru": {
+        "name": "Луксор",
+        "description": "Музей под открытым небом, где находятся храмы Карнака и Долина Царей"
+      },
+      "de": {
+        "name": "Luxor",
+        "description": "Das Freiluftmuseum, Heimat der Karnak-Tempel und des Tals der Könige"
+      }
+    },
+    "imageUrl": "assets/images/states/luxor.jpg",
+    "locationCount": 20
+  },
+  {
+    "id": "aswan",
+    "translations": {
+      "en": {
+        "name": "Aswan",
+        "description": "Known for the Aswan High Dam and the beautiful Nile River islands"
+      },
+      "ar": {
+        "name": "أسوان",
+        "description": "معروف بلسان السد العالي وجزر النيل الجميلة"
+      },
+      "fr": {
+        "name": "Aswan",
+        "description": "Célèbre pour le barrage haut d'Aswan et les belles îles du Nil"
+      },
+      "ru": {
+        "name": "Асуан",
+        "description": "Известен высокой плотиной Асуан и красивыми островами Нила"
+      },
+      "de": {
+        "name": "Aswan",
+        "description": "Bekannt für den Aswan-Hochdamm und die schönen Nilinseln"
+      }
+    },
+    "imageUrl": "assets/images/states/aswan.jpg",
+    "locationCount": 12
+  },
+  {
+    "id": "asyut",
+    "translations": {
+      "en": {
+        "name": "Asyut",
+        "description": "A historic city with ancient monasteries and cultural heritage"
+      },
+      "ar": {
+        "name": "أسيوط",
+        "description": "مدينة تاريخية تضم أديرة قديمة وتراث ثقافي"
+      },
+      "fr": {
+        "name": "Assiout",
+        "description": "Une ville historique avec des monastères anciens et un patrimoine culturel"
+      },
+      "ru": {
+        "name": "Асуэт",
+        "description": "Исторический город с древними монастырями и культурным наследием"
+      },
+      "de": {
+        "name": "Asyut",
+        "description": "Eine historische Stadt mit alten Klöstern und kulturellem Erbe"
+      }
+    },
+    "imageUrl": "assets/images/states/asyut.jpg",
+    "locationCount": 10
+  },
+  {
+    "id": "beheira",
+    "translations": {
+      "en": {
+        "name": "Beheira",
+        "description": "An agricultural region with rich Nile Delta landscapes"
+      },
+      "ar": {
+        "name": "البحيرة",
+        "description": "منطقة زراعية غنية بمناظر دلتا النيل"
+      },
+      "fr": {
+        "name": "Buhayra",
+        "description": "Une région agricole riche des paysages du delta du Nil"
+      },
+      "ru": {
+        "name": "Бухейра",
+        "description": "Сельскохозяйственный регион с богатым ландшафтом дельты Нила"
+      },
+      "de": {
+        "name": "Beheira",
+        "description": "Eine landwirtschaftliche Region mit reichem Nildelta-Landschaften"
+      }
+    },
+    "imageUrl": "assets/images/states/beheira.jpg",
+    "locationCount": 8
+  },
+  {
+    "id": "beni_suef",
+    "translations": {
+      "en": {
+        "name": "Beni Suef",
+        "description": "Known for its fertile lands and ancient archaeological sites"
+      },
+      "ar": {
+        "name": "بني سويف",
+        "description": "معروفة بأراضيها الخصبة ومواقعها الأثرية القديمة"
+      },
+      "fr": {
+        "name": "Beni Suef",
+        "description": "Connue pour ses terres fertiles et ses sites archéologiques anciens"
+      },
+      "ru": {
+        "name": "Бени-Суэф",
+        "description": "Известна своими плодородными землями и древними археологическими объектами"
+      },
+      "de": {
+        "name": "Beni Suef",
+        "description": "Bekannt für seine fruchtbaren Ländereien und antiken archäologischen Stätten"
+      }
+    },
+    "imageUrl": "assets/images/states/beni_suef.jpg",
+    "locationCount": 9
+  },
+  {
+    "id": "dakahlia",
+    "translations": {
+      "en": {
+        "name": "Dakahlia",
+        "description": "A major agricultural governorate in the Nile Delta"
+      },
+      "ar": {
+        "name": "الدقهلية",
+        "description": "محافظة زراعية رئيسية في دلتا النيل"
+      },
+      "fr": {
+        "name": "Dakahlia",
+        "description": "Un gouvernorat agricole majeur dans le delta du Nil"
+      },
+      "ru": {
+        "name": "Дакаhлия",
+        "description": "Крупный сельскохозяйственный мухафазат в дельте Нила"
+      },
+      "de": {
+        "name": "Dakahlia",
+        "description": "Ein bedeutendes landwirtschaftliches Gouvernement im Nildelta"
+      }
+    },
+    "imageUrl": "assets/images/states/dakahlia.jpg",
+    "locationCount": 11
+  },
+  {
+    "id": "damietta",
+    "translations": {
+      "en": {
+        "name": "Damietta",
+        "description": "Famous for its furniture industry and coastal beauty"
+      },
+      "ar": {
+        "name": "دمياط",
+        "description": "معروفة بصناعة الأثاث وجمالها الساحلي"
+      },
+      "fr": {
+        "name": "Damiette",
+        "description": "Célèbre pour son industrie du meuble et sa beauté côtière"
+      },
+      "ru": {
+        "name": "Дамиетта",
+        "description": "Известна своей мебельной промышленностью и прибрежной красотой"
+      },
+      "de": {
+        "name": "Damiette",
+        "description": "Bekannt für seine Möbelindustrie und seine Küsten Schönheit"
+      }
+    },
+    "imageUrl": "assets/images/states/damietta.jpg",
+    "locationCount": 7
+  },
+  {
+    "id": "faiyum",
+    "translations": {
+      "en": {
+        "name": "Faiyum",
+        "description": "Known for its oasis, Lake Qarun, and ancient ruins"
+      },
+      "ar": {
+        "name": "الفيوم",
+        "description": "معروف بواحته وبحيرة قارون والآثار القديمة"
+      },
+      "fr": {
+        "name": "Fayoum",
+        "description": "Connu pour son oasis, le lac Qarun et ses ruines anciennes"
+      },
+      "ru": {
+        "name": "Файюм",
+        "description": "Известен своим оазисом, озером Кариун и древними руинами"
+      },
+      "de": {
+        "name": "Faiyum",
+        "description": "Bekannt für seinen Oase, den Qarun-See und antike Ruinen"
+      }
+    },
+    "imageUrl": "assets/images/states/faiyum.jpg",
+    "locationCount": 10
+  },
+  {
+    "id": "gharbia",
+    "translations": {
+      "en": {
+        "name": "Gharbia",
+        "description": "An industrial and agricultural hub in the Nile Delta"
+      },
+      "ar": {
+        "name": "الغربية",
+        "description": "مركز صناعي وزراعي في دلتا النيل"
+      },
+      "fr": {
+        "name": "Gharbiya",
+        "description": "Un centre industriel et agricole dans le delta du Nil"
+      },
+      "ru": {
+        "name": "Гарбия",
+        "description": "Промышленный и сельскохозяйственный центр в дельте Нила"
+      },
+      "de": {
+        "name": "Gharbia",
+        "description": "Ein industrielles und landwirtschaftliches Zentrum im Nildelta"
+      }
+    },
+    "imageUrl": "assets/images/states/gharbia.jpg",
+    "locationCount": 9
+  },
+  {
+    "id": "ismailia",
+    "translations": {
+      "en": {
+        "name": "Ismailia",
+        "description": "Located on the Suez Canal, known for its gardens and historical sites"
+      },
+      "ar": {
+        "name": "الإسماعيلية",
+        "description": "تقع على قناة السويس، معروفة بحدائقها ومواقعها التاريخية"
+      },
+      "fr": {
+        "name": "Ismaïlia",
+        "description": "Située sur le canal de Suez, connue pour ses jardins et sites historiques"
+      },
+      "ru": {
+        "name": "Исмаилия",
+        "description": "Расположена на Суэцком канале, известна своими садами и историческими местами"
+      },
+      "de": {
+        "name": "Ismailia",
+        "description": "Am Suezkanal gelegen, bekannt für seine Gärten und historischen Stätten"
+      }
+    },
+    "imageUrl": "assets/images/states/ismailia.jpg",
+    "locationCount": 8
+  },
+  {
+    "id": "kafr_el_sheikh",
+    "translations": {
+      "en": {
+        "name": "Kafr El Sheikh",
+        "description": "A coastal governorate with rich fishing and agriculture"
+      },
+      "ar": {
+        "name": "كفر الشيخ",
+        "description": "محافظة ساحلية غنية بالصيد والزراعة"
+      },
+      "fr": {
+        "name": "Kafr El Sheikh",
+        "description": "Un gouvernorat côtier riche en pêche et agriculture"
+      },
+      "ru": {
+        "name": "Кафр эль-Шейх",
+        "description": "Побережный мухафазат, богатый рыболовством и сельским хозяйством"
+      },
+      "de": {
+        "name": "Kafr El Sheikh",
+        "description": "Ein Küstengouvernement, reich an Fischerei und Landwirtschaft"
+      }
+    },
+    "imageUrl": "assets/images/states/kafr_el_sheikh.jpg",
+    "locationCount": 7
+  },
+  {
+    "id": "matruh",
+    "translations": {
+      "en": {
+        "name": "Matruh",
+        "description": "Famous for its Mediterranean beaches and Siwa Oasis"
+      },
+      "ar": {
+        "name": "مطروح",
+        "description": "معروف بشواطئ البحر المتوسط وواحة سيوة"
+      },
+      "fr": {
+        "name": "Matrûh",
+        "description": "Célèbre pour ses plages méditerranéennes et l'oasis de Siwa"
+      },
+      "ru": {
+        "name": "Матрух",
+        "description": "Известен своими средиземноморскими пляжами и оазисом Сива"
+      },
+      "de": {
+        "name": "Matruh",
+        "description": "Bekannt für seine Mittelmeerstrände und die Siwa-Oase"
+      }
+    },
+    "imageUrl": "assets/images/states/matruh.jpg",
+    "locationCount": 10
+  },
+  {
+    "id": "minya",
+    "translations": {
+      "en": {
+        "name": "Minya",
+        "description": "Known for its ancient Coptic heritage and Nile scenery"
+      },
+      "ar": {
+        "name": "المنيا",
+        "description": "معروف بتراثه القبطي القديم ومناظر النيل"
+      },
+      "fr": {
+        "name": "Minya",
+        "description": "Connue pour son patrimoine copte ancien et ses paysages du Nil"
+      },
+      "ru": {
+        "name": "Минья",
+        "description": "Известна своим древним коптским наследием и пейзажами Нила"
+      },
+      "de": {
+        "name": "Minya",
+        "description": "Bekannt für sein altes koptisches Erbe und die Nil-Landschaften"
+      }
+    },
+    "imageUrl": "assets/images/states/minya.jpg",
+    "locationCount": 9
+  },
+  {
+    "id": "monufia",
+    "translations": {
+      "en": {
+        "name": "Monufia",
+        "description": "An agricultural area with historical villages"
+      },
+      "ar": {
+        "name": "المنوفية",
+        "description": "منطقة زراعية تضم قرى تاريخية"
+      },
+      "fr": {
+        "name": "Menoufia",
+        "description": "Une région agricole avec des villages historiques"
+      },
+      "ru": {
+        "name": "Менуфия",
+        "description": "Сельскохозяйственный регион с историческими деревнями"
+      },
+      "de": {
+        "name": "Monufia",
+        "description": "Ein landwirtschaftliches Gebiet mit historischen Dörfern"
+      }
+    },
+    "imageUrl": "assets/images/states/monufia.jpg",
+    "locationCount": 8
+  },
+  {
+    "id": "new_valley",
+    "translations": {
+      "en": {
+        "name": "New Valley",
+        "description": "A vast desert region with oases like Dakhla and Kharga"
+      },
+      "ar": {
+        "name": "الوادي الجديد",
+        "description": "منطقة صحراوية واسعة تضم واحات مثل الداخلة والخرجة"
+      },
+      "fr": {
+        "name": "Nouvelle Vallée",
+        "description": "Une vaste région désertique avec des oasis comme Dakhla et Kharga"
+      },
+      "ru": {
+        "name": "Новая Долина",
+        "description": "Обширный пустынный регион с оазисами, такими как Дахла и Харга"
+      },
+      "de": {
+        "name": "Neue Tal",
+        "description": "Eine weite Wüstenregion mit Oasen wie Dakhla und Kharga"
+      }
+    },
+    "imageUrl": "assets/images/states/new_valley.jpg",
+    "locationCount": 6
+  },
+  {
+    "id": "north_sinai",
+    "translations": {
+      "en": {
+        "name": "North Sinai",
+        "description": "Known for its desert landscapes and historical forts"
+      },
+      "ar": {
+        "name": "شمال سيناء",
+        "description": "معروف بمناظرها الصحراوية وحصونها التاريخية"
+      },
+      "fr": {
+        "name": "Sinaï Nord",
+        "description": "Connue pour ses paysages désertiques et ses forts historiques"
+      },
+      "ru": {
+        "name": "Северный Синай",
+        "description": "Известен своими пустынными пейзажами и историческими крепостями"
+      },
+      "de": {
+        "name": "Nord-Sinai",
+        "description": "Bekannt für seine Wüstenlandschaften und historischen Festungen"
+      }
+    },
+    "imageUrl": "assets/images/states/north_sinai.jpg",
+    "locationCount": 5
+  },
+  {
+    "id": "port_said",
+    "translations": {
+      "en": {
+        "name": "Port Said",
+        "description": "A port city on the Mediterranean with a rich maritime history"
+      },
+      "ar": {
+        "name": "بورسعيد",
+        "description": "مدينة ميناء على البحر المتوسط بتاريخ بحري غني"
+      },
+      "fr": {
+        "name": "Port-Saïd",
+        "description": "Une ville portuaire méditerranéenne avec un riche passé maritime"
+      },
+      "ru": {
+        "name": "Порт-Саид",
+        "description": "Портовый город на Средиземном море с богатой морской историей"
+      },
+      "de": {
+        "name": "Port Said",
+        "description": "Eine Hafenstadt am Mittelmeer mit reicher Seefahrtsgeschichte"
+      }
+    },
+    "imageUrl": "assets/images/states/port_said.jpg",
+    "locationCount": 6
+  },
+  {
+    "id": "qalyubia",
+    "translations": {
+      "en": {
+        "name": "Qalyubia",
+        "description": "A suburban governorate near Cairo with industrial zones"
+      },
+      "ar": {
+        "name": "القليوبية",
+        "description": "محافظة ريفية قرب القاهرة تضم مناطق صناعية"
+      },
+      "fr": {
+        "name": "Qalyubiya",
+        "description": "Un gouvernorat suburbain près du Caire avec des zones industrielles"
+      },
+      "ru": {
+        "name": "Кальюбия",
+        "description": "Пригородный мухафазат недалеко от Каира с промышленными зонами"
+      },
+      "de": {
+        "name": "Qalyubia",
+        "description": "Ein Vorstadtgouvernement nahe Kairo mit Industriezonen"
+      }
+    },
+    "imageUrl": "assets/images/states/qalyubia.jpg",
+    "locationCount": 7
+  },
+  {
+    "id": "qena",
+    "translations": {
+      "en": {
+        "name": "Qena",
+        "description": "Home to the Dendera Temple and ancient Pharaonic sites"
+      },
+      "ar": {
+        "name": "قنا",
+        "description": "تضم معبد دندرة ومواقع فرعونية قديمة"
+      },
+      "fr": {
+        "name": "Qena",
+        "description": "Accueil du temple de Dendera et de sites pharaoniques anciens"
+      },
+      "ru": {
+        "name": "Кена",
+        "description": "Дом храма Дендера и древних фараонских объектов"
+      },
+      "de": {
+        "name": "Qena",
+        "description": "Heimat des Dendera-Tempels und antiker Pharaonenstätten"
+      }
+    },
+    "imageUrl": "assets/images/states/qena.jpg",
+    "locationCount": 8
+  },
+  {
+    "id": "red_sea",
+    "translations": {
+      "en": {
+        "name": "Red Sea",
+        "description": "Famous for its coral reefs and beach resorts"
+      },
+      "ar": {
+        "name": "البحر الأحمر",
+        "description": "معروف بمرجاناته ومنتجعاته الساحلية"
+      },
+      "fr": {
+        "name": "Mer Rouge",
+        "description": "Célèbre pour ses récifs de corail et ses stations balnéaires"
+      },
+      "ru": {
+        "name": "Красное море",
+        "description": "Известен своими коралловыми рифами и пляжными курортами"
+      },
+      "de": {
+        "name": "Rotes Meer",
+        "description": "Bekannt für seine Korallenriffe und Strandresorts"
+      }
+    },
+    "imageUrl": "assets/images/states/red_sea.jpg",
+    "locationCount": 15
+  },
+  {
+    "id": "sharqia",
+    "translations": {
+      "en": {
+        "name": "Sharqia",
+        "description": "An agricultural region with historical significance"
+      },
+      "ar": {
+        "name": "الشرقية",
+        "description": "منطقة زراعية ذات أهمية تاريخية"
+      },
+      "fr": {
+        "name": "Sharqiya",
+        "description": "Une région agricole d'importance historique"
+      },
+      "ru": {
+        "name": "Шаркия",
+        "description": "Сельскохозяйственный регион с историческим значением"
+      },
+      "de": {
+        "name": "Sharqia",
+        "description": "Eine landwirtschaftliche Region mit historischer Bedeutung"
+      }
+    },
+    "imageUrl": "assets/images/states/sharqia.jpg",
+    "locationCount": 10
+  },
+  {
+    "id": "south_sinai",
+    "translations": {
+      "en": {
+        "name": "South Sinai",
+        "description": "Home to Mount Sinai and stunning Red Sea beaches"
+      },
+      "ar": {
+        "name": "جنوب سيناء",
+        "description": "تضم جبل سيناء وشواطئ البحر الأحمر الخلابة"
+      },
+      "fr": {
+        "name": "Sinaï Sud",
+        "description": "Accueil du mont Sinaï et de magnifiques plages de la mer Rouge"
+      },
+      "ru": {
+        "name": "Южный Синай",
+        "description": "Дом горы Синай и потрясающих пляжей Красного моря"
+      },
+      "de": {
+        "name": "Süd-Sinai",
+        "description": "Heimat des Sinai-Berges und atemberaubender Rotes-Meer-Strände"
+      }
+    },
+    "imageUrl": "assets/images/states/south_sinai.jpg",
+    "locationCount": 12
+  },
+  {
+    "id": "suez",
+    "translations": {
+      "en": {
+        "name": "Suez",
+        "description": "A key port city on the Suez Canal"
+      },
+      "ar": {
+        "name": "السويس",
+        "description": "مدينة ميناء رئيسية على قناة السويس"
+      },
+      "fr": {
+        "name": "Suez",
+        "description": "Une ville portuaire clé sur le canal de Suez"
+      },
+      "ru": {
+        "name": "Суэц",
+        "description": "Ключевая портовая город на Суэцком канале"
+      },
+      "de": {
+        "name": "Suez",
+        "description": "Eine Schlüsselhafenstadt am Suezkanal"
+      }
+    },
+    "imageUrl": "assets/images/states/suez.jpg",
+    "locationCount": 6
+  }
+]

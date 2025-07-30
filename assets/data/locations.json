@@ -1,0 +1,90 @@
+[
+  {
+    "id": "giza_pyramids",
+    "translations": {
+      "en": {
+        "name": "Giza Pyramids",
+        "description": "One of the Seven Wonders of the World, featuring the Pyramids of Khufu, Khafre, and Menkaure"
+      },
+      "ar": {
+        "name": "أهرامات الجيزة",
+        "description": "واحدة من عجائب الدنيا السبع، تضم أهرامات خوفو وخوفرين وميكرنوس"
+      },
+      "fr": {
+        "name": "Pyramides de Gizeh",
+        "description": "L'une des Sept Merveilles du monde, abritant les pyramides de Khéops, Khéphren et Mykérinos"
+      },
+      "ru": {
+        "name": "Пирамиды Гизы",
+        "description": "Одно из семи чудес света, включающее пирамиды Хуфу, Хафры и Менкауры"
+      },
+      "de": {
+        "name": "Gizeh-Pyramiden",
+        "description": "Eines der sieben Weltwunder, das die Pyramiden von Cheops, Chephren und Mykerinos umfasst"
+      }
+    },
+    "keywords": ["أهرامات", "monuments", "تاريخ", "فرعون", "الجيزة"],
+    "imageUrl": "assets/images/giza_pyramids.jpg",
+    "categories": ["آثار", "تاريخ", "معالم"],
+    "stateId": "giza",
+    "mapUrl": "https://maps.google.com/?q=29.9792,31.1344",
+    "transportOptions": [
+      {
+        "type": "Taxi",
+        "description": "تاكسي من وسط القاهرة",
+        "estimatedCost": 50.0,
+        "estimatedTime": 45
+      },
+      {
+        "type": "Bus",
+        "description": "رحلة بالباص من التحرير",
+        "estimatedCost": 10.0,
+        "estimatedTime": 60
+      }
+    ]
+  },
+  {
+    "id": "egyptian_museum",
+    "translations": {
+      "en": {
+        "name": "Egyptian Museum",
+        "description": "The largest museum of Egyptian antiquities in the world, housing over 120,000 artifacts"
+      },
+      "ar": {
+        "name": "المتحف المصري",
+        "description": "أكبر متحف للآثار المصرية في العالم، يضم أكثر من 120 ألف قطعة أثرية"
+      },
+      "fr": {
+        "name": "Musée égyptien",
+        "description": "Le plus grand musée des antiquités égyptiennes au monde, abritant plus de 120 000 artefacts"
+      },
+      "ru": {
+        "name": "Египетский музей",
+        "description": "Крупнейший музей египетских древностей в мире, содержащий более 120 000 артефактов"
+      },
+      "de": {
+        "name": "Ägyptisches Museum",
+        "description": "Das größte Museum ägyptischer Altertümer der Welt, das über 120.000 Artefakte beherbergt"
+      }
+    },
+    "keywords": ["متحف", "آثار", "تماثيل", "تورابي", "فرعون"],
+    "imageUrl": "assets/images/egyptian_museum.jpg",
+    "categories": ["متحف", "آثار", "فنون"],
+    "stateId": "cairo",
+    "mapUrl": "https://maps.google.com/?q=30.0444,31.2357",
+    "transportOptions": [
+      {
+        "type": "Metro",
+        "description": "خط المترو رقم 1 - محطة السادات",
+        "estimatedCost": 5.0,
+        "estimatedTime": 15
+      },
+      {
+        "type": "Taxi",
+        "description": "تاكسي من أي نقطة في القاهرة",
+        "estimatedCost": 30.0,
+        "estimatedTime": 30
+      }
+    ]
+  }
+]
