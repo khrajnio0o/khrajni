@@ -9,11 +9,15 @@ import 'package:khrajni/widgets/location_card.dart';
 class HomeScreen extends StatefulWidget {
   final String selectedLanguage;
   final Function(String) updateLanguage;
+  final ThemeMode themeMode;
+  final VoidCallback toggleTheme;
 
   const HomeScreen({
     Key? key,
     required this.selectedLanguage,
     required this.updateLanguage,
+    required this.themeMode,
+    required this.toggleTheme,
   }) : super(key: key);
 
   @override
@@ -67,8 +71,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> _loadData() async {
     try {
       final loadedStates = await DataService.loadStates();
-      final allLocs =
-          await DataService.loadAllLocations(); // Assume this method exists
+      final allLocs = await DataService.loadAllLocations();
       setState(() {
         states = loadedStates;
         allLocations = allLocs;
@@ -145,63 +148,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildBackground() {
-    final String backgroundType = 'gradient';
-    final String backgroundImage = 'assets/images/egypt_background.jpg';
-    final List<Color> gradientColors = [
-      const Color(0xFF1E3A8A),
-      const Color(0xFF3B82F6),
-      const Color(0xFF06B6D4),
-    ];
-
-    switch (backgroundType) {
-      case 'gradient':
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: gradientColors,
-            ),
-          ),
-        );
-      case 'image':
-        return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(backgroundImage),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.3),
-                  Colors.black.withOpacity(0.6),
-                ],
-              ),
-            ),
-          ),
-        );
-      case 'pattern':
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: gradientColors,
-            ),
-          ),
-          child: CustomPaint(
-            painter: PatternPainter(),
-            size: Size.infinite,
-          ),
-        );
-      default:
-        return Container(color: Colors.blue.shade700);
-    }
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+    );
   }
 
   @override
@@ -214,62 +163,73 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = widget.themeMode == ThemeMode.dark;
+    final appBarBackgroundColor = isDarkMode ? Colors.grey[850] : Colors.blue;
+    final appBarForegroundColor = Colors.white;
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'خرجني',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: appBarBackgroundColor,
+        foregroundColor: appBarForegroundColor,
+        actions: [
+          Row(
+            children: [
+              DropdownButton<String>(
+                value: widget.selectedLanguage,
+                dropdownColor: appBarBackgroundColor,
+                style: TextStyle(color: appBarForegroundColor),
+                iconEnabledColor: appBarForegroundColor,
+                items: const {
+                  'en': 'English',
+                  'ar': 'العربية',
+                  'fr': 'Français',
+                  'ru': 'Русский',
+                  'de': 'Deutsch',
+                }.entries.map((entry) {
+                  return DropdownMenuItem<String>(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    widget.updateLanguage(newValue);
+                  }
+                },
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                icon: Icon(
+                  widget.themeMode == ThemeMode.light
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                  color: appBarForegroundColor,
+                ),
+                onPressed: widget.toggleTheme,
+                tooltip: widget.selectedLanguage == 'ar'
+                    ? 'تبديل الوضع'
+                    : widget.selectedLanguage == 'en'
+                        ? 'Toggle Theme'
+                        : widget.selectedLanguage == 'fr'
+                            ? 'Changer de thème'
+                            : widget.selectedLanguage == 'ru'
+                                ? 'Переключить тему'
+                                : 'Thema wechseln',
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Positioned.fill(child: _buildBackground()),
           SafeArea(
             child: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: const Text(
-                          'خرجني',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(2, 2),
-                                blurRadius: 4,
-                                color: Colors.black26,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        value: widget.selectedLanguage,
-                        dropdownColor: Colors.blue.shade700,
-                        style: const TextStyle(color: Colors.white),
-                        iconEnabledColor: Colors.white,
-                        items: const {
-                          'en': 'English',
-                          'ar': 'العربية',
-                          'fr': 'Français',
-                          'ru': 'Русский',
-                          'de': 'Deutsch',
-                        }.entries.map((entry) {
-                          return DropdownMenuItem<String>(
-                            value: entry.key,
-                            child: Text(entry.value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            widget.updateLanguage(newValue);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 SlideTransition(
                   position: _slideAnimation,
                   child: FadeTransition(
@@ -278,11 +238,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: isDarkMode ? Colors.grey[800] : Colors.grey[100],
                         borderRadius: BorderRadius.circular(16.0),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: isDarkMode
+                                ? Colors.black.withOpacity(0.3)
+                                : Colors.black.withOpacity(0.1),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -299,10 +261,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         ? 'Выберите мухафазат для посещения и откройте уникальные достопримечательности любимого Египта'
                                         : 'Wählen Sie ein Gouvernement zum Besuch und entdecken Sie die einzigartigen Attraktionen des geliebten Ägypten',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87,
+                          color: isDarkMode ? Colors.white70 : Colors.black87,
                           height: 1.4,
                         ),
                       ),
@@ -324,21 +286,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   : widget.selectedLanguage == 'ru'
                                       ? 'Поиск мухафазатов или достопримечательностей (например, Каир, Музей)'
                                       : 'Suchen Sie Gouvernements oder Attraktionen (z. B. Kairo, Museum)',
-                      prefixIcon: const Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search,
+                          color:
+                              isDarkMode ? Colors.white70 : Colors.grey[600]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 20.0),
+                      filled: true,
+                      fillColor:
+                          isDarkMode ? Colors.grey[800] : Colors.grey[200],
                     ),
                   ),
                 ),
                 Expanded(
                   child: isLoading
-                      ? const Center(
+                      ? Center(
                           child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              isDarkMode
+                                  ? Colors.white70
+                                  : Theme.of(context).primaryColor,
+                            ),
                           ),
                         )
                       : filteredStates.isEmpty && filteredLocations.isEmpty
@@ -353,9 +323,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             : widget.selectedLanguage == 'ru'
                                                 ? 'Нет результатов, соответствующих вашему поиску'
                                                 : 'Keine Ergebnisse entsprechen Ihrer Suche',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white,
+                                  color: isDarkMode
+                                      ? Colors.white70
+                                      : Colors.black87,
                                 ),
                               ),
                             )
@@ -379,48 +351,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             'ru'
                                                         ? 'Мухафазаты'
                                                         : 'Gouvernements',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                          color: isDarkMode
+                                              ? Colors.white70
+                                              : Colors.black87,
                                         ),
                                       ),
                                       const SizedBox(height: 8),
                                       ...filteredStates.map((state) {
-                                        return StateCard(
-                                          state: state,
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              PageRouteBuilder(
-                                                pageBuilder: (context,
-                                                        animation,
-                                                        secondaryAnimation) =>
-                                                    StateDetailScreen(
-                                                  state: state,
-                                                  selectedLanguage:
-                                                      widget.selectedLanguage,
-                                                  updateLanguage:
-                                                      widget.updateLanguage,
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom:
+                                                  16.0), // Added spacing between states
+                                          child: StateCard(
+                                            state: state,
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageRouteBuilder(
+                                                  pageBuilder: (context,
+                                                          animation,
+                                                          secondaryAnimation) =>
+                                                      StateDetailScreen(
+                                                    state: state,
+                                                    selectedLanguage:
+                                                        widget.selectedLanguage,
+                                                    updateLanguage:
+                                                        widget.updateLanguage,
+                                                  ),
+                                                  transitionsBuilder: (context,
+                                                      animation,
+                                                      secondaryAnimation,
+                                                      child) {
+                                                    return SlideTransition(
+                                                      position: Tween<Offset>(
+                                                        begin: const Offset(
+                                                            1.0, 0.0),
+                                                        end: Offset.zero,
+                                                      ).animate(animation),
+                                                      child: child,
+                                                    );
+                                                  },
                                                 ),
-                                                transitionsBuilder: (context,
-                                                    animation,
-                                                    secondaryAnimation,
-                                                    child) {
-                                                  return SlideTransition(
-                                                    position: Tween<Offset>(
-                                                      begin: const Offset(
-                                                          1.0, 0.0),
-                                                      end: Offset.zero,
-                                                    ).animate(animation),
-                                                    child: child,
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                          },
-                                          selectedLanguage:
-                                              widget.selectedLanguage,
+                                              );
+                                            },
+                                            selectedLanguage:
+                                                widget.selectedLanguage,
+                                            isDarkMode: isDarkMode,
+                                          ),
                                         );
                                       }).toList(),
                                     ],
@@ -443,10 +423,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             'ru'
                                                         ? 'Достопримечательности'
                                                         : 'Attraktionen',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                          color: isDarkMode
+                                              ? Colors.white70
+                                              : Colors.black87,
                                         ),
                                       ),
                                       const SizedBox(height: 8),
@@ -473,6 +455,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           },
                                           selectedLanguage:
                                               widget.selectedLanguage,
+                                          isDarkMode: isDarkMode,
                                         );
                                       }).toList(),
                                     ],
@@ -487,32 +470,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
-}
-
-class PatternPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-    const spacing = 40.0;
-    for (double i = -size.height; i < size.width + size.height; i += spacing) {
-      canvas.drawLine(
-        Offset(i, 0),
-        Offset(i + size.height, size.height),
-        paint,
-      );
-    }
-    for (double i = 0; i < size.height; i += spacing) {
-      canvas.drawLine(
-        Offset(0, i),
-        Offset(size.width, i),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -5,7 +5,8 @@ class Location extends Equatable {
   final Map<String, Map<String, String>> translations;
   final List<String> keywords;
   final String imageUrl;
-  final List<String> categories;
+  final Map<String, List<String>>
+      categoriesTranslations; // New field for translated categories
   final String stateId;
   final String mapUrl;
   final List<TransportOption> transportOptions;
@@ -15,7 +16,7 @@ class Location extends Equatable {
     required this.translations,
     required this.keywords,
     required this.imageUrl,
-    required this.categories,
+    required this.categoriesTranslations,
     required this.stateId,
     required this.mapUrl,
     required this.transportOptions,
@@ -33,14 +34,18 @@ class Location extends Equatable {
       id: json['id'],
       translations: (json['translations'] as Map<String, dynamic>).map(
         (key, value) => MapEntry(key, {
-          'name': value['name'],
-          'description': value['description'],
+          'name': value['name'] ?? 'Unknown',
+          'description': value['description'] ?? 'No description',
         }),
       ),
-      keywords: List<String>.from(json['keywords']),
-      imageUrl: json['imageUrl'],
-      categories: List<String>.from(json['categories']),
-      stateId: json['stateId'],
+      keywords: List<String>.from(json['keywords'] ?? []),
+      imageUrl: json['imageUrl'] ?? '',
+      categoriesTranslations:
+          (json['categoriesTranslations'] as Map<String, dynamic>?)?.map(
+                (key, value) => MapEntry(key, List<String>.from(value ?? [])),
+              ) ??
+              {'en': []}, // Default to empty list for 'en' if missing
+      stateId: json['stateId'] ?? '',
       mapUrl: json['mapUrl'] ?? '',
       transportOptions: transportList,
     );
@@ -52,6 +57,8 @@ class Location extends Equatable {
       translations[lang]?['description'] ??
       translations['en']?['description'] ??
       '';
+  List<String> getCategories(String lang) =>
+      categoriesTranslations[lang] ?? categoriesTranslations['en'] ?? [];
 
   @override
   List<Object?> get props => [id];
@@ -72,8 +79,8 @@ class TransportOption extends Equatable {
 
   factory TransportOption.fromJson(Map<String, dynamic> json) {
     return TransportOption(
-      type: json['type'],
-      description: json['description'],
+      type: json['type'] ?? 'Unknown',
+      description: json['description'] ?? '',
       estimatedCost: json['estimatedCost']?.toDouble() ?? 0.0,
       estimatedTime: json['estimatedTime'] ?? 0,
     );

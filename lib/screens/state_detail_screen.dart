@@ -86,17 +86,22 @@ class _StateDetailScreenState extends State<StateDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final appBarBackgroundColor =
+        isDarkMode ? Colors.grey[850] : Colors.blue.shade700;
+    final appBarForegroundColor = isDarkMode ? Colors.white : Colors.white;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.state.getName(widget.selectedLanguage)),
-        backgroundColor: Colors.blue.shade700,
-        foregroundColor: Colors.white,
+        backgroundColor: appBarBackgroundColor,
+        foregroundColor: appBarForegroundColor,
         actions: [
           DropdownButton<String>(
             value: widget.selectedLanguage,
-            dropdownColor: Colors.blue.shade700,
-            style: const TextStyle(color: Colors.white),
-            iconEnabledColor: Colors.white,
+            dropdownColor: appBarBackgroundColor,
+            style: TextStyle(color: appBarForegroundColor),
+            iconEnabledColor: appBarForegroundColor,
             items: const {
               'en': 'English',
               'ar': 'العربية',
@@ -178,10 +183,10 @@ class _StateDetailScreenState extends State<StateDetailScreen> {
                             : widget.selectedLanguage == 'ru'
                                 ? 'Рекомендации на основе вашего поиска'
                                 : 'Empfehlungen basierend auf Ihrer Suche',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: isDarkMode ? Colors.white70 : Colors.black87,
                 ),
               ),
             ),
@@ -189,10 +194,13 @@ class _StateDetailScreenState extends State<StateDetailScreen> {
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : filteredLocations.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
                           'لا توجد أماكن مطابقة لبحثك',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: isDarkMode ? Colors.white70 : Colors.black87,
+                          ),
                         ),
                       )
                     : ListView.builder(
@@ -215,6 +223,7 @@ class _StateDetailScreenState extends State<StateDetailScreen> {
                               );
                             },
                             selectedLanguage: widget.selectedLanguage,
+                            isDarkMode: isDarkMode, // Properly passed here
                           );
                         },
                       ),

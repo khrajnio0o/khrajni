@@ -14,10 +14,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _selectedLanguage = 'ar'; // Default language
+  ThemeMode _themeMode = ThemeMode.light; // Default theme
 
   void updateLanguage(String newLanguage) {
     setState(() {
       _selectedLanguage = newLanguage;
+    });
+  }
+
+  void toggleTheme() {
+    setState(() {
+      _themeMode =
+          _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     });
   }
 
@@ -28,10 +36,35 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Tajawal',
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.black87),
+        ),
       ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Tajawal',
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.grey[900],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[850],
+          foregroundColor: Colors.white,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white70),
+        ),
+      ),
+      themeMode: _themeMode,
       home: HomeScreen(
         selectedLanguage: _selectedLanguage,
         updateLanguage: updateLanguage,
+        themeMode: _themeMode,
+        toggleTheme: toggleTheme,
       ),
       debugShowCheckedModeBanner: false,
     );

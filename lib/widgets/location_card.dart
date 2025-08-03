@@ -5,12 +5,14 @@ class LocationCard extends StatefulWidget {
   final Location location;
   final VoidCallback onTap;
   final String selectedLanguage;
+  final bool isDarkMode;
 
   const LocationCard({
     Key? key,
     required this.location,
     required this.onTap,
     required this.selectedLanguage,
+    required this.isDarkMode,
   }) : super(key: key);
 
   @override
@@ -45,6 +47,10 @@ class _LocationCardState extends State<LocationCard>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
+    // Trigger rebuild when language changes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
+    });
   }
 
   @override
@@ -71,6 +77,15 @@ class _LocationCardState extends State<LocationCard>
 
   @override
   Widget build(BuildContext context) {
+    final cardBackgroundColors = widget.isDarkMode
+        ? [Colors.grey[850]!, Colors.grey[900]!]
+        : [Colors.white, Colors.grey[50]!];
+    final textColor = widget.isDarkMode ? Colors.white70 : Colors.black87;
+    final subTextColor = widget.isDarkMode ? Colors.white54 : Colors.grey[600]!;
+    final categoryGradient = widget.isDarkMode
+        ? [Colors.blueGrey[700]!, Colors.blueGrey[800]!]
+        : [Colors.blue[100]!, Colors.blue[50]!];
+
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
@@ -83,7 +98,8 @@ class _LocationCardState extends State<LocationCard>
               child: Material(
                 elevation: _isPressed ? 2 : 8,
                 borderRadius: BorderRadius.circular(20.0),
-                shadowColor: Colors.blue.withOpacity(0.3),
+                shadowColor:
+                    Colors.blue.withOpacity(widget.isDarkMode ? 0.5 : 0.3),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   decoration: BoxDecoration(
@@ -91,14 +107,12 @@ class _LocationCardState extends State<LocationCard>
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [
-                        Colors.white,
-                        Colors.grey.shade50,
-                      ],
+                      colors: cardBackgroundColors,
                     ),
                     border: Border.all(
                       color: _isPressed
-                          ? Colors.blue.withOpacity(0.3)
+                          ? Colors.blue
+                              .withOpacity(widget.isDarkMode ? 0.5 : 0.3)
                           : Colors.transparent,
                       width: 2,
                     ),
@@ -108,8 +122,10 @@ class _LocationCardState extends State<LocationCard>
                     onTapUp: _onTapUp,
                     onTapCancel: _onTapCancel,
                     borderRadius: BorderRadius.circular(20.0),
-                    splashColor: Colors.blue.withOpacity(0.1),
-                    highlightColor: Colors.blue.withOpacity(0.05),
+                    splashColor:
+                        Colors.blue.withOpacity(widget.isDarkMode ? 0.2 : 0.1),
+                    highlightColor:
+                        Colors.blue.withOpacity(widget.isDarkMode ? 0.1 : 0.05),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
@@ -123,7 +139,8 @@ class _LocationCardState extends State<LocationCard>
                                 borderRadius: BorderRadius.circular(16.0),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
+                                    color: Colors.black.withOpacity(
+                                        widget.isDarkMode ? 0.3 : 0.1),
                                     blurRadius: 8,
                                     offset: const Offset(0, 4),
                                   ),
@@ -145,10 +162,15 @@ class _LocationCardState extends State<LocationCard>
                                             gradient: LinearGradient(
                                               begin: Alignment.topLeft,
                                               end: Alignment.bottomRight,
-                                              colors: [
-                                                Colors.blue.shade300,
-                                                Colors.blue.shade600,
-                                              ],
+                                              colors: widget.isDarkMode
+                                                  ? [
+                                                      Colors.blueGrey[700]!,
+                                                      Colors.blueGrey[900]!
+                                                    ]
+                                                  : [
+                                                      Colors.blue[300]!,
+                                                      Colors.blue[600]!
+                                                    ],
                                             ),
                                           ),
                                           child: const Center(
@@ -168,7 +190,8 @@ class _LocationCardState extends State<LocationCard>
                                           end: Alignment.bottomCenter,
                                           colors: [
                                             Colors.transparent,
-                                            Colors.black.withOpacity(0.2),
+                                            Colors.black.withOpacity(
+                                                widget.isDarkMode ? 0.4 : 0.2),
                                           ],
                                         ),
                                       ),
@@ -186,10 +209,10 @@ class _LocationCardState extends State<LocationCard>
                                 Text(
                                   widget.location
                                       .getName(widget.selectedLanguage),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
+                                    color: textColor,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -202,7 +225,7 @@ class _LocationCardState extends State<LocationCard>
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey.shade600,
+                                    color: subTextColor,
                                     height: 1.3,
                                   ),
                                 ),
@@ -210,26 +233,23 @@ class _LocationCardState extends State<LocationCard>
                                 Wrap(
                                   spacing: 6.0,
                                   runSpacing: 4.0,
-                                  children: widget.location.categories
+                                  children: widget.location
+                                      .getCategories(widget.selectedLanguage)
                                       .take(3)
                                       .map((category) {
                                     return AnimatedContainer(
                                       duration:
                                           const Duration(milliseconds: 200),
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
+                                          horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                         gradient: LinearGradient(
-                                          colors: [
-                                            Colors.blue.shade100,
-                                            Colors.blue.shade50,
-                                          ],
-                                        ),
+                                            colors: categoryGradient),
                                         borderRadius: BorderRadius.circular(12),
                                         border: Border.all(
-                                          color: Colors.blue.shade200,
+                                          color: widget.isDarkMode
+                                              ? Colors.blueGrey[600]!
+                                              : Colors.blue[200]!,
                                           width: 0.5,
                                         ),
                                       ),
@@ -238,7 +258,9 @@ class _LocationCardState extends State<LocationCard>
                                         style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.blue.shade700,
+                                          color: widget.isDarkMode
+                                              ? Colors.blueGrey[200]!
+                                              : Colors.blue[700]!,
                                         ),
                                       ),
                                     );
@@ -253,13 +275,17 @@ class _LocationCardState extends State<LocationCard>
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.blue.shade50,
+                                color: widget.isDarkMode
+                                    ? Colors.blueGrey[700]!
+                                    : Colors.blue[50]!,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Icon(
                                 Icons.arrow_forward_ios,
                                 size: 16,
-                                color: Colors.blue.shade600,
+                                color: widget.isDarkMode
+                                    ? Colors.blueGrey[200]!
+                                    : Colors.blue[600]!,
                               ),
                             ),
                           ),

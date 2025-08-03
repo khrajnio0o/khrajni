@@ -5,12 +5,14 @@ class StateCard extends StatefulWidget {
   final StateModel state;
   final VoidCallback onTap;
   final String selectedLanguage;
+  final bool isDarkMode;
 
   const StateCard({
     Key? key,
     required this.state,
     required this.onTap,
     required this.selectedLanguage,
+    required this.isDarkMode,
   }) : super(key: key);
 
   @override
@@ -74,6 +76,13 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final cardGradientOverlay = widget.isDarkMode
+        ? [Colors.black.withOpacity(0.3), Colors.black.withOpacity(0.8)]
+        : [Colors.transparent, Colors.black.withOpacity(0.7)];
+    final textColor = widget.isDarkMode ? Colors.white : Colors.white;
+    final subTextColor = widget.isDarkMode ? Colors.white70 : Colors.white70;
+    final badgeColor = widget.isDarkMode ? Colors.orange[700]! : Colors.orange;
+
     return AnimatedBuilder(
       animation: _scaleAnimation,
       builder: (context, child) {
@@ -109,10 +118,7 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.7),
-                        ],
+                        colors: cardGradientOverlay,
                       ),
                     ),
                     child: Stack(
@@ -127,10 +133,12 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                                   gradient: LinearGradient(
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.blue.shade400,
-                                      Colors.blue.shade700,
-                                    ],
+                                    colors: widget.isDarkMode
+                                        ? [Colors.grey[800]!, Colors.grey[900]!]
+                                        : [
+                                            Colors.blue[400]!,
+                                            Colors.blue[700]!
+                                          ],
                                   ),
                                 ),
                                 child: const Center(
@@ -163,7 +171,9 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                                       ],
                                       colors: [
                                         Colors.transparent,
-                                        Colors.white.withOpacity(0.3),
+                                        widget.isDarkMode
+                                            ? Colors.grey[500]!.withOpacity(0.3)
+                                            : Colors.white.withOpacity(0.3),
                                         Colors.transparent,
                                       ],
                                     ),
@@ -178,11 +188,7 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.3),
-                                  Colors.black.withOpacity(0.8),
-                                ],
+                                colors: cardGradientOverlay,
                                 stops: const [0.0, 0.6, 1.0],
                               ),
                             ),
@@ -200,11 +206,11 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                               children: [
                                 Text(
                                   widget.state.getName(widget.selectedLanguage),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    shadows: [
+                                    color: textColor,
+                                    shadows: const [
                                       Shadow(
                                         offset: Offset(1, 1),
                                         blurRadius: 3,
@@ -226,9 +232,9 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                                     const SizedBox(width: 4),
                                     Text(
                                       '${widget.state.locationCount} ${widget.selectedLanguage == 'ar' ? 'مكان جذب' : widget.selectedLanguage == 'en' ? 'attractions' : widget.selectedLanguage == 'fr' ? 'attractions' : widget.selectedLanguage == 'ru' ? 'достопримечательностей' : 'Attraktionen'}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 14,
-                                        color: Colors.white70,
+                                        color: subTextColor,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -244,9 +250,11 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                                     child: Text(
                                       widget.state.getDescription(
                                           widget.selectedLanguage),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.white60,
+                                        color: widget.isDarkMode
+                                            ? Colors.white60
+                                            : Colors.white60,
                                         height: 1.3,
                                       ),
                                       maxLines: 2,
@@ -258,26 +266,15 @@ class _StateCardState extends State<StateCard> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        if (_scaleController.isAnimating)
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                            ),
-                          ),
                         if (widget.state.locationCount > 15)
                           Positioned(
                             top: 12,
                             right: 12,
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
+                                  horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.orange.withOpacity(0.9),
+                                color: badgeColor.withOpacity(0.9),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Text(

@@ -25,7 +25,13 @@
     },
     "keywords": ["أهرامات", "monuments", "تاريخ", "فرعون", "الجيزة"],
     "imageUrl": "assets/images/giza_pyramids.jpg",
-    "categories": ["آثار", "تاريخ", "معالم"],
+    "categoriesTranslations": {
+      "en": ["Antiquities", "History", "Landmarks"],
+      "ar": ["آثار", "تاريخ", "معالم"],
+      "fr": ["Antiquités", "Histoire", "Points d'intérêt"],
+      "ru": ["Древности", "История", "Достопримечательности"],
+      "de": ["Antiquitäten", "Geschichte", "Sehenswürdigkeiten"]
+    },
     "stateId": "giza",
     "mapUrl": "https://maps.google.com/?q=29.9792,31.1344",
     "transportOptions": [
@@ -69,7 +75,13 @@
     },
     "keywords": ["متحف", "آثار", "تماثيل", "تورابي", "فرعون"],
     "imageUrl": "assets/images/egyptian_museum.jpg",
-    "categories": ["متحف", "آثار", "فنون"],
+    "categoriesTranslations": {
+      "en": ["Museum", "Antiquities", "Arts"],
+      "ar": ["متحف", "آثار", "فنون"],
+      "fr": ["Musée", "Antiquités", "Arts"],
+      "ru": ["Музей", "Древности", "Искусство"],
+      "de": ["Museum", "Antiquitäten", "Künste"]
+    },
     "stateId": "cairo",
     "mapUrl": "https://maps.google.com/?q=30.0444,31.2357",
     "transportOptions": [

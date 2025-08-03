@@ -16,17 +16,22 @@ class LocationDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final appBarBackgroundColor =
+        isDarkMode ? Colors.grey[850] : Colors.blue.shade700;
+    final appBarForegroundColor = isDarkMode ? Colors.white : Colors.white;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(location.getName(selectedLanguage)),
-        backgroundColor: Colors.blue.shade700,
-        foregroundColor: Colors.white,
+        backgroundColor: appBarBackgroundColor,
+        foregroundColor: appBarForegroundColor,
         actions: [
           DropdownButton<String>(
             value: selectedLanguage,
-            dropdownColor: Colors.blue.shade700,
-            style: const TextStyle(color: Colors.white),
-            iconEnabledColor: Colors.white,
+            dropdownColor: appBarBackgroundColor,
+            style: TextStyle(color: appBarForegroundColor),
+            iconEnabledColor: appBarForegroundColor,
             items: const {
               'en': 'English',
               'ar': 'العربية',
@@ -75,10 +80,21 @@ class LocationDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8.0,
-                    children: location.categories.map((category) {
+                    children: location
+                        .getCategories(selectedLanguage)
+                        .map((category) {
+                      final isDarkMode =
+                          Theme.of(context).brightness == Brightness.dark;
+                      final chipBackgroundColor = isDarkMode
+                          ? Colors.blueGrey.shade700.withOpacity(0.7)
+                          : Colors.blue.shade100;
+                      final labelColor =
+                          isDarkMode ? Colors.white70 : Colors.blue.shade900;
+
                       return Chip(
                         label: Text(category),
-                        backgroundColor: Colors.blue.shade100,
+                        backgroundColor: chipBackgroundColor,
+                        labelStyle: TextStyle(color: labelColor),
                       );
                     }).toList(),
                   ),
@@ -287,11 +303,13 @@ class LocationDetailScreen extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: isDarkMode ? Colors.grey[800] : Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
+                                color: isDarkMode
+                                    ? Colors.black.withOpacity(0.3)
+                                    : Colors.grey.withOpacity(0.1),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),
