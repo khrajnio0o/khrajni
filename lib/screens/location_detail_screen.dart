@@ -83,14 +83,11 @@ class LocationDetailScreen extends StatelessWidget {
                     children: location
                         .getCategories(selectedLanguage)
                         .map((category) {
-                      final isDarkMode =
-                          Theme.of(context).brightness == Brightness.dark;
                       final chipBackgroundColor = isDarkMode
                           ? Colors.blueGrey.shade700.withOpacity(0.7)
                           : Colors.blue.shade100;
                       final labelColor =
                           isDarkMode ? Colors.white70 : Colors.blue.shade900;
-
                       return Chip(
                         label: Text(category),
                         backgroundColor: chipBackgroundColor,
@@ -119,6 +116,351 @@ class LocationDetailScreen extends StatelessWidget {
                     location.getDescription(selectedLanguage),
                     style: const TextStyle(fontSize: 16, height: 1.5),
                   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'التوصيات'
+                        : selectedLanguage == 'en'
+                            ? 'Recommendations'
+                            : selectedLanguage == 'fr'
+                                ? 'Recommandations'
+                                : selectedLanguage == 'ru'
+                                    ? 'Рекомендации'
+                                    : 'Empfehlungen',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (location.getRecommendations(selectedLanguage).isEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        selectedLanguage == 'ar'
+                            ? 'لا توجد توصيات متاحة حاليًا'
+                            : selectedLanguage == 'en'
+                                ? 'No recommendations available at the moment'
+                                : selectedLanguage == 'fr'
+                                    ? 'Aucune recommandation disponible pour le moment'
+                                    : selectedLanguage == 'ru'
+                                        ? 'На данный момент нет рекомендаций'
+                                        : 'Derzeit keine Empfehlungen verfügbar',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    )
+                  else
+                    Column(
+                      children: location
+                          .getRecommendations(selectedLanguage)
+                          .map((recommendation) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check_circle,
+                                        size: 16, color: Colors.blue.shade700),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        recommendation,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'ساعات العمل'
+                        : selectedLanguage == 'en'
+                            ? 'Open Time'
+                            : selectedLanguage == 'fr'
+                                ? 'Horaires d\'ouverture'
+                                : selectedLanguage == 'ru'
+                                    ? 'Время работы'
+                                    : 'Öffnungszeiten',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    location.getOpenTime(selectedLanguage).isEmpty
+                        ? (selectedLanguage == 'ar'
+                            ? 'غير متاح'
+                            : selectedLanguage == 'en'
+                                ? 'Not available'
+                                : selectedLanguage == 'fr'
+                                    ? 'Non disponible'
+                                    : selectedLanguage == 'ru'
+                                        ? 'Недоступно'
+                                        : 'Nicht verfügbar')
+                        : location.getOpenTime(selectedLanguage),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'الأسعار'
+                        : selectedLanguage == 'en'
+                            ? 'Prices'
+                            : selectedLanguage == 'fr'
+                                ? 'Prix'
+                                : selectedLanguage == 'ru'
+                                    ? 'Цены'
+                                    : 'Preise',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    location.getPrices(selectedLanguage).isEmpty
+                        ? (selectedLanguage == 'ar'
+                            ? 'غير متاح'
+                            : selectedLanguage == 'en'
+                                ? 'Not available'
+                                : selectedLanguage == 'fr'
+                                    ? 'Non disponible'
+                                    : selectedLanguage == 'ru'
+                                        ? 'Недоступно'
+                                        : 'Nicht verfügbar')
+                        : location.getPrices(selectedLanguage),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'أقرب محطة مترو'
+                        : selectedLanguage == 'en'
+                            ? 'Nearest Metro Station'
+                            : selectedLanguage == 'fr'
+                                ? 'Station de métro la plus proche'
+                                : selectedLanguage == 'ru'
+                                    ? 'Ближайшая станция метро'
+                                    : 'Nächste U-Bahn-Station',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (location
+                      .getNearestMetroStation(selectedLanguage)['name']!
+                      .isEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        selectedLanguage == 'ar'
+                            ? 'لا توجد معلومات عن أقرب محطة مترو حاليًا'
+                            : selectedLanguage == 'en'
+                                ? 'No nearest metro station information available at the moment'
+                                : selectedLanguage == 'fr'
+                                    ? 'Aucune information sur la station de métro la plus proche pour le moment'
+                                    : selectedLanguage == 'ru'
+                                        ? 'На данный момент нет информации о ближайшей станции метро'
+                                        : 'Derzeit keine Informationen zur nächsten U-Bahn-Station verfügbar',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    )
+                  else
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isDarkMode ? Colors.grey[800] : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: isDarkMode
+                                ? Colors.black.withOpacity(0.3)
+                                : Colors.grey.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.subway,
+                            color: Colors.green,
+                            size: 30,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  location.getNearestMetroStation(
+                                      selectedLanguage)['name']!,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  location.getNearestMetroStation(
+                                      selectedLanguage)['description']!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'مميزات الزيارة'
+                        : selectedLanguage == 'en'
+                            ? 'Advantages of Visiting'
+                            : selectedLanguage == 'fr'
+                                ? 'Avantages de la visite'
+                                : selectedLanguage == 'ru'
+                                    ? 'Преимущества посещения'
+                                    : 'Vorteile des Besuchs',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (location.getAdvantages(selectedLanguage).isEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        selectedLanguage == 'ar'
+                            ? 'لا توجد مميزات متاحة حاليًا'
+                            : selectedLanguage == 'en'
+                                ? 'No advantages available at the moment'
+                                : selectedLanguage == 'fr'
+                                    ? 'Aucun avantage disponible pour le moment'
+                                    : selectedLanguage == 'ru'
+                                        ? 'На данный момент нет преимуществ'
+                                        : 'Derzeit keine Vorteile verfügbar',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    )
+                  else
+                    Column(
+                      children: location
+                          .getAdvantages(selectedLanguage)
+                          .map((advantage) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.star,
+                                        size: 16,
+                                        color: Colors.yellow.shade700),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        advantage,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  const SizedBox(height: 16),
+                  Text(
+                    selectedLanguage == 'ar'
+                        ? 'نصائح قبل الزيارة'
+                        : selectedLanguage == 'en'
+                            ? 'Advice Before Visiting'
+                            : selectedLanguage == 'fr'
+                                ? 'Conseils avant la visite'
+                                : selectedLanguage == 'ru'
+                                    ? 'Советы перед посещением'
+                                    : 'Tipps vor dem Besuch',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (location.getAdvice(selectedLanguage).isEmpty)
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        selectedLanguage == 'ar'
+                            ? 'لا توجد نصائح متاحة حاليًا'
+                            : selectedLanguage == 'en'
+                                ? 'No advice available at the moment'
+                                : selectedLanguage == 'fr'
+                                    ? 'Aucun conseil disponible pour le moment'
+                                    : selectedLanguage == 'ru'
+                                        ? 'На данный момент нет советов'
+                                        : 'Derzeit keine Tipps verfügbar',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    )
+                  else
+                    Column(
+                      children: location
+                          .getAdvice(selectedLanguage)
+                          .map((advice) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.info,
+                                        size: 16, color: Colors.blue.shade700),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        advice,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ),
                   const SizedBox(height: 16),
                   Text(
                     selectedLanguage == 'ar'
@@ -233,155 +575,6 @@ class LocationDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    selectedLanguage == 'ar'
-                        ? 'مواصلات'
-                        : selectedLanguage == 'en'
-                            ? 'Transportation'
-                            : selectedLanguage == 'fr'
-                                ? 'Transports'
-                                : selectedLanguage == 'ru'
-                                    ? 'Транспорт'
-                                    : 'Transport',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  if (location.transportOptions.isEmpty)
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        selectedLanguage == 'ar'
-                            ? 'لا توجد معلومات عن وسائل النقل المتاحة حالياً'
-                            : selectedLanguage == 'en'
-                                ? 'No transportation information available at the moment'
-                                : selectedLanguage == 'fr'
-                                    ? 'Aucune information sur les transports disponible pour le moment'
-                                    : selectedLanguage == 'ru'
-                                        ? 'На данный момент нет информации о транспорте'
-                                        : 'Derzeit keine Transportinformationen verfügbar',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    )
-                  else
-                    Column(
-                      children: location.transportOptions.map((transport) {
-                        IconData transportIcon;
-                        Color iconColor;
-                        switch (transport.type.toLowerCase()) {
-                          case 'taxi':
-                            transportIcon = Icons.local_taxi;
-                            iconColor = Colors.yellow.shade700;
-                            break;
-                          case 'bus':
-                            transportIcon = Icons.directions_bus;
-                            iconColor = Colors.blue;
-                            break;
-                          case 'metro':
-                            transportIcon = Icons.subway;
-                            iconColor = Colors.green;
-                            break;
-                          case 'train':
-                            transportIcon = Icons.train;
-                            iconColor = Colors.orange;
-                            break;
-                          default:
-                            transportIcon = Icons.directions_car;
-                            iconColor = Colors.grey;
-                        }
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: isDarkMode ? Colors.grey[800] : Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: isDarkMode
-                                    ? Colors.black.withOpacity(0.3)
-                                    : Colors.grey.withOpacity(0.1),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                transportIcon,
-                                color: iconColor,
-                                size: 30,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      transport.type,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      transport.description,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.access_time,
-                                          size: 16,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          '${transport.estimatedTime} ${selectedLanguage == 'ar' ? 'دقيقة' : selectedLanguage == 'en' ? 'minutes' : selectedLanguage == 'fr' ? 'minutes' : selectedLanguage == 'ru' ? 'минут' : 'Minuten'}',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 16),
-                                        Icon(
-                                          Icons.attach_money,
-                                          size: 16,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          '${transport.estimatedCost.toStringAsFixed(2)} ${selectedLanguage == 'ar' ? 'جنيه' : selectedLanguage == 'en' ? 'EGP' : selectedLanguage == 'fr' ? 'EGP' : selectedLanguage == 'ru' ? 'EGP' : 'EGP'}',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
                 ],
               ),
             ),

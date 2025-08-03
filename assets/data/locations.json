@@ -34,20 +34,63 @@
     },
     "stateId": "giza",
     "mapUrl": "https://maps.google.com/?q=29.9792,31.1344",
-    "transportOptions": [
-      {
-        "type": "Taxi",
-        "description": "تاكسي من وسط القاهرة",
-        "estimatedCost": 50.0,
-        "estimatedTime": 45
+    "recommendationsTranslations": {
+      "en": ["Take a camel ride", "Visit the Great Sphinx", "Explore the Solar Boat Museum"],
+      "ar": ["ركوب الجمال", "زيارة تمثال أبو الهول", "استكشاف متحف المركب الشمسي"],
+      "fr": ["Faire une promenade à dos de chameau", "Visiter le Grand Sphinx", "Explorer le musée du bateau solaire"],
+      "ru": ["Прокатиться на верблюде", "Посетить Большого Сфинкса", "Исследовать музей Солнечной лодки"],
+      "de": ["Eine Kameltour machen", "Die Große Sphinx besuchen", "Das Sonnenboot-Museum erkunden"]
+    },
+    "openTimeTranslations": {
+      "en": "8:00 AM - 5:00 PM",
+      "ar": "8:00 صباحًا - 5:00 مساءً",
+      "fr": "8h00 - 17h00",
+      "ru": "8:00 - 17:00",
+      "de": "8:00 Uhr - 17:00 Uhr"
+    },
+    "pricesTranslations": {
+      "en": "General: 240 EGP, Students: 120 EGP",
+      "ar": "عام: 240 جنيه، طلاب: 120 جنيه",
+      "fr": "Général : 240 EGP, Étudiants : 120 EGP",
+      "ru": "Общий: 240 EGP, Студенты: 120 EGP",
+      "de": "Allgemein: 240 EGP, Studenten: 120 EGP"
+    },
+    "nearestMetroStationTranslations": {
+      "en": {
+        "name": "Giza Metro Station",
+        "description": "Take Metro Line 2 to Giza Station, then a 15-minute taxi ride to the Pyramids."
       },
-      {
-        "type": "Bus",
-        "description": "رحلة بالباص من التحرير",
-        "estimatedCost": 10.0,
-        "estimatedTime": 60
+      "ar": {
+        "name": "محطة مترو الجيزة",
+        "description": "استقل مترو الخط الثاني إلى محطة الجيزة، ثم ركوب تاكسي لمدة 15 دقيقة إلى الأهرامات."
+      },
+      "fr": {
+        "name": "Station de métro Giza",
+        "description": "Prenez la ligne 2 du métro jusqu'à la station Giza, puis un taxi de 15 minutes jusqu'aux pyramides."
+      },
+      "ru": {
+        "name": "Станция метро Гиза",
+        "description": "Сядьте на линию метро 2 до станции Гиза, затем 15-минутная поездка на такси до пирамид."
+      },
+      "de": {
+        "name": "U-Bahn-Station Giza",
+        "description": "Nehmen Sie die U-Bahn-Linie 2 bis zur Station Giza, dann eine 15-minütige Taxifahrt zu den Pyramiden."
       }
-    ]
+    },
+    "advantagesTranslations": {
+      "en": ["Historical significance", "Stunning views", "Unique photo opportunities"],
+      "ar": ["أهمية تاريخية", "إطلالات رائعة", "فرص تصوير فريدة"],
+      "fr": ["Importance historique", "Vues magnifiques", "Opportunités de photos uniques"],
+      "ru": ["Историческая значимость", "Потрясающие виды", "Уникальные возможности для фотографий"],
+      "de": ["Historische Bedeutung", "Atemberaubende Ausblicke", "Einzigartige Fotomöglichkeiten"]
+    },
+    "adviceTranslations": {
+      "en": ["Wear comfortable shoes", "Bring water and sunscreen", "Visit early to avoid crowds"],
+      "ar": ["ارتدي أحذية مريحة", "احضر ماء وواقي شمس", "زر مبكرًا لتجنب الزحام"],
+      "fr": ["Portez des chaussures confortables", "Apportez de l'eau et de la crème solaire", "Visitez tôt pour éviter la foule"],
+      "ru": ["Носите удобную обувь", "Возьмите воду и солнцезащитный крем", "Посетите рано, чтобы избежать толпы"],
+      "de": ["Tragen Sie bequeme Schuhe", "Bringen Sie Wasser und Sonnencreme mit", "Besuchen Sie früh, um Menschenmengen zu vermeiden"]
+    }
   },
   {
     "id": "egyptian_museum",
@@ -84,19 +127,62 @@
     },
     "stateId": "cairo",
     "mapUrl": "https://maps.google.com/?q=30.0444,31.2357",
-    "transportOptions": [
-      {
-        "type": "Metro",
-        "description": "خط المترو رقم 1 - محطة السادات",
-        "estimatedCost": 5.0,
-        "estimatedTime": 15
+    "recommendationsTranslations": {
+      "en": ["See the Tutankhamun collection", "Explore the mummies room", "Take a guided tour"],
+      "ar": ["شاهد مجموعة توت عنخ آمون", "استكشف غرفة المومياوات", "قم بجولة إرشادية"],
+      "fr": ["Voir la collection Toutankhamon", "Explorer la salle des momies", "Faire une visite guidée"],
+      "ru": ["Посмотреть коллекцию Тутанхамона", "Исследовать зал мумий", "Взять экскурсию с гидом"],
+      "de": ["Die Tutanchamun-Sammlung ansehen", "Den Mumienraum erkunden", "Eine geführte Tour machen"]
+    },
+    "openTimeTranslations": {
+      "en": "9:00 AM - 5:00 PM",
+      "ar": "9:00 صباحًا - 5:00 مساءً",
+      "fr": "9h00 - 17h00",
+      "ru": "9:00 - 17:00",
+      "de": "9:00 Uhr - 17:00 Uhr"
+    },
+    "pricesTranslations": {
+      "en": "General: 200 EGP, Students: 100 EGP",
+      "ar": "عام: 200 جنيه، طلاب: 100 جنيه",
+      "fr": "Général : 200 EGP, Étudiants : 100 EGP",
+      "ru": "Общий: 200 EGP, Студенты: 100 EGP",
+      "de": "Allgemein: 200 EGP, Studenten: 100 EGP"
+    },
+    "nearestMetroStationTranslations": {
+      "en": {
+        "name": "Sadat Metro Station",
+        "description": "Take Metro Line 1 or 2 to Sadat Station, then a 5-minute walk to the museum."
       },
-      {
-        "type": "Taxi",
-        "description": "تاكسي من أي نقطة في القاهرة",
-        "estimatedCost": 30.0,
-        "estimatedTime": 30
+      "ar": {
+        "name": "محطة مترو السادات",
+        "description": "استقل مترو الخط الأول أو الثاني إلى محطة السادات، ثم امش 5 دقائق إلى المتحف."
+      },
+      "fr": {
+        "name": "Station de métro Sadat",
+        "description": "Prenez la ligne 1 ou 2 du métro jusqu'à la station Sadat, puis marchez 5 minutes jusqu'au musée."
+      },
+      "ru": {
+        "name": "Станция метро Садат",
+        "description": "Сядьте на линию метро 1 или 2 до станции Садат, затем 5-минутная прогулка до музея."
+      },
+      "de": {
+        "name": "U-Bahn-Station Sadat",
+        "description": "Nehmen Sie die U-Bahn-Linie 1 oder 2 bis zur Station Sadat, dann 5 Minuten zu Fuß zum Museum."
       }
-    ]
+    },
+    "advantagesTranslations": {
+      "en": ["Rich collection of artifacts", "Central location", "Educational experience"],
+      "ar": ["مجموعة غنية من القطع الأثرية", "موقع مركزي", "تجربة تعليمية"],
+      "fr": ["Collection riche d'artefacts", "Emplacement central", "Expérience éducative"],
+      "ru": ["Богатая коллекция артефактов", "Центральное расположение", "Образовательный опыт"],
+      "de": ["Reiche Sammlung von Artefakten", "Zentrale Lage", "Lehrreiche Erfahrung"]
+    },
+    "adviceTranslations": {
+      "en": ["Book tickets in advance", "Wear comfortable clothing", "Allow 2-3 hours for the visit"],
+      "ar": ["احجز التذاكر مسبقًا", "ارتدي ملابس مريحة", "خصص 2-3 ساعات للزيارة"],
+      "fr": ["Réservez les billets à l'avance", "Portez des vêtements confortables", "Prévoyez 2 à 3 heures pour la visite"],
+      "ru": ["Забронируйте билеты заранее", "Носите удобную одежду", "Запланируйте 2-3 часа на посещение"],
+      "de": ["Buchen Sie Tickets im Voraus", "Tragen Sie bequeme Kleidung", "Planen Sie 2-3 Stunden für den Besuch ein"]
+    }
   }
 ]
