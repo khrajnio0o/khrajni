@@ -184,5 +184,336 @@
       "ru": ["Забронируйте билеты заранее", "Носите удобную одежду", "Запланируйте 2-3 часа на посещение"],
       "de": ["Buchen Sie Tickets im Voraus", "Tragen Sie bequeme Kleidung", "Planen Sie 2-3 Stunden für den Besuch ein"]
     }
+  },
+  {
+    "id": "الرامسيوم",
+    "translations": {
+      "en": {
+        "name": "Ramessium",
+        "description": "The mortuary temple of Pharaoh Ramesses II, known for its grand ruins and historical significance."
+      },
+      "ar": {
+        "name": "الرامسيوم",
+        "description": "معبد الدفن للفرعون رمسيس الثاني، معروف بآثاره العظيمة وأهميته التاريخية."
+      },
+      "fr": {
+        "name": "Ramesseum",
+        "description": "Le temple funéraire du pharaon Ramsès II, célèbre pour ses ruines grandioses et son importance historique."
+      },
+      "ru": {
+        "name": "Рамессиум",
+        "description": "Погребальный храм фараона Рамсеса II, известный своими грандиозными руинами и историческим значением."
+      },
+      "de": {
+        "name": "Ramesseum",
+        "description": "Der Grabtempel des Pharaos Ramses II, bekannt für seine großartigen Ruinen und historische Bedeutung."
+      }
+    },
+    "keywords": ["معبد", "رمسيس", "آثار", "تاريخ", "لوكسور"],
+    "imageUrl": "assets/images/الرامسيوم.jpg",
+    "categoriesTranslations": {
+      "en": ["Antiquities", "History", "Temples"],
+      "ar": ["آثار", "تاريخ", "معابد"],
+      "fr": ["Antiquités", "Histoire", "Temples"],
+      "ru": ["Древности", "История", "Храмы"],
+      "de": ["Antiquitäten", "Geschichte", "Tempel"]
+    },
+    "stateId": "luxor",
+    "mapUrl": "https://maps.google.com/?q=25.7167,32.6167",
+    "recommendationsTranslations": {
+      "en": [
+        "Explore the remains of the massive fallen statue of Ramses II.",
+        "Admire the detailed reliefs narrating the Pharaoh’s battles and triumphs.",
+        "Stroll through the wide halls and admire the distinctive architectural style.",
+        "Capture stunning photos among the grand columns and gates."
+      ],
+      "ar": [
+        "استكشاف بقايا التمثال الضخم المنهار لرمسيس الثاني.",
+        "مشاهدة النقوش التفصيلية التي تسرد ملاحم الفرعون ومعاركه.",
+        "السير في أروقة المعبد الواسعة وتأمل الأسلوب المعماري المميز.",
+        "تصوير لقطات رائعة وسط أعمدة المعبد وبواباته العمالقة."
+      ],
+      "fr": [
+        "Explorer les restes de la gigantesque statue effondrée de Ramsès II.",
+        "Admirer les bas-reliefs détaillés racontant les batailles et les triomphes du pharaon.",
+        "Se promener dans les vastes salles et apprécier l’architecture distinctive.",
+        "Prendre de superbes photos parmi les grandes colonnes et portes monumentales."
+      ],
+      "ru": [
+        "Осмотреть останки гигантской разрушенной статуи Рамсеса II.",
+        "Полюбоваться детализированными барельефами, рассказывающими о сражениях и подвигах фараона.",
+        "Прогуляться по просторным залам и оценить уникальную архитектуру.",
+        "Сделать красивые фотографии на фоне колонн и монументальных ворот."
+      ],
+      "de": [
+        "Die Überreste der riesigen, eingestürzten Statue von Ramses II entdecken.",
+        "Die detaillierten Reliefs bewundern, die von den Schlachten und Triumphen des Pharaos erzählen.",
+        "Durch die weitläufigen Hallen spazieren und die besondere Architektur genießen.",
+        "Beeindruckende Fotos zwischen den großen Säulen und monumentalen Toren machen."
+      ]
+    },
+    "openTimeTranslations": {
+      "en": "Hours: Daily from 9 AM to 5 PM (last entry around 4 PM)",
+      "ar": "تقريبًا من 9 صباحًا حتى 5 مساءً (آخر دخول 4 مساءً)",
+      "fr": "Horaires : tous les jours de 9h à 17h (dernière entrée vers 16h)",
+      "ru": "Время работы: ежедневно с 9:00 до 17:00 (последний вход около 16:00)",
+      "de": "Täglich geöffnet von 9:00 bis ca. 17:00 Uhr (letzter Einlass ca. 16:00 Uhr)"
+    },
+    "pricesTranslations": {
+      "en": "Egyptians: EGP 20 / Students: EGP 10\nForeigners: EGP 100 / Foreign Students: EGP 50",
+      "ar": "مصريون: 20 ج.م / طالب: 10 ج.م\nأجانب: 100 ج.م / طالب أجانب: 50 ج.م",
+      "fr": "Égyptiens : 20 EGP / Étudiants : 10 EGP\nÉtrangers : 100 EGP / Étudiants étrangers : 50 EGP",
+      "ru": "Египтяне: 20 EGP / Студенты: 10 EGP\nИностранцы: 100 EGP / Иностранные студенты: 50 EGP",
+      "de": "Ägypter: 20 EGP / Studenten: 10 EGP\nAusländer: 100 EGP / Ausländische Studenten: 50 EGP"
+    },
+    "nearestMetroStationTranslations": {
+      "en": {
+        "name": "No Metro",
+        "description": "Location: West Bank – near Medinet Habu Temple and the Valley of the Kings.\nTaxi or tuk-tuk from Luxor city center, or as part of a guided tour.\nRecommended to combine with other West Bank temple visits."
+      },
+      "ar": {
+        "name": "لا يوجد مترو",
+        "description": "الموقع: الضفة الغربية – بالقرب من معبد مدينة هابو ووادي الملوك.\nتاكسي/توك توك من وسط الأقصر أو ضمن جولة سياحية.\nمفضل دمجه مع زيارة المعابد الأخرى في الضفة الغربية."
+      },
+      "fr": {
+        "name": "Pas de métro",
+        "description": "Emplacement : rive ouest – près du temple de Médinet Habou et de la Vallée des Rois.\nTaxi ou tuk-tuk depuis le centre de Louxor, ou dans le cadre d’une visite guidée.\nRecommandé de combiner avec d'autres visites de temples de la rive ouest."
+      },
+      "ru": {
+        "name": "Нет метро",
+        "description": "Расположение: западный берег — рядом с храмом Мединет Хабу и Долиной царей.\nТакси или тук-тук из центра Луксора, либо в составе экскурсионной группы.\nРекомендуется сочетать с посещением других храмов западного берега."
+      },
+      "de": {
+        "name": "Kein U-Bahn",
+        "description": "Lage: Westufer – in der Nähe des Medinet-Habu-Tempels und des Tals der Könige.\nMit dem Taxi oder Tuk-Tuk vom Stadtzentrum Luxors oder im Rahmen einer geführten Tour.\nEmpfehlenswert in Kombination mit weiteren Tempeln am Westufer."
+      }
+    },
+    "advantagesTranslations": {
+      "en": [
+        "A less crowded site compared to major attractions, ideal for enjoying peace and reflection.",
+        "Stunning architectural details and carvings from the era of Ramses II.",
+        "A massive ruined statue creates a majestic and unique scene.",
+        "Perfect for photography enthusiasts and history lovers."
+      ],
+      "ar": [
+        "موقع أقل ازدحاما مقارنة بالمواقع الكبرى، مناسب للاستمتاع بالهدوء والتأمل.",
+        "تفاصيل معمارية ونقوش رائعة لعصر رمسيس الثاني.",
+        "تمثال ضخم مدمر يشكل مشهدا مهيبا وفريدا.",
+        "مناسب لعشاق التصوير والمهتمين بالتاريخ."
+      ],
+      "fr": [
+        "Un site moins fréquenté que les grandes attractions, idéal pour profiter du calme et de la contemplation.",
+        "Des détails architecturaux et des gravures impressionnantes de l’époque de Ramsès II.",
+        "Une statue massive en ruine crée une scène majestueuse et unique.",
+        "Parfait pour les amateurs de photographie et les passionnés d’histoire."
+      ],
+      "ru": [
+        "Менее многолюдное место по сравнению с крупными достопримечательностями, идеально подходит для спокойного отдыха и размышлений.",
+        "Великолепные архитектурные детали и резьба эпохи Рамсеса II.",
+        "Огромная разрушенная статуя создает величественную и уникальную картину.",
+        "Подходит для любителей фотографии и истории."
+      ],
+      "de": [
+        "Ein weniger überfüllter Ort im Vergleich zu den großen Sehenswürdigkeiten, ideal für Ruhe und Besinnung.",
+        "Beeindruckende architektonische Details und Reliefs aus der Zeit Ramses II.",
+        "Eine massive zerstörte Statue bildet eine majestätische und einzigartige Szenerie.",
+        "Perfekt für Fotografiebegeisterte und Geschichtsinteressierte."
+      ]
+    },
+    "adviceTranslations": {
+      "en": [
+        "Try visiting in the morning to avoid heat and crowds.",
+        "Wear comfortable shoes as the ground is uneven.",
+        "Don't miss reading the prominent wall carvings."
+      ],
+      "ar": [
+        "حاول الزيارة صباحًا لتفادي الشمس والزحام.",
+        "ارتدِ حذاءً مريحًا لأن الأرض غير مستوية.",
+        "لا تفوت قراءة النقوش البارزة على الجدران."
+      ],
+      "fr": [
+        "Essayez de visiter le matin pour éviter la chaleur et la foule.",
+        "Portez des chaussures confortables car le sol est irrégulier.",
+        "Ne manquez pas de lire les gravures en relief sur les murs."
+      ],
+      "ru": [
+        "Старайтесь посещать утром, чтобы избежать жары и толпы.",
+        "Наденьте удобную обувь — поверхность неровная.",
+        "Не пропустите рельефные надписи на стенах."
+      ],
+      "de": [
+        "Besuchen Sie die Stätte am besten morgens, um Hitze und Menschenmengen zu vermeiden.",
+        "Tragen Sie bequeme Schuhe, da der Boden uneben ist.",
+        "Vergessen Sie nicht, die Reliefinschriften an den Wänden zu lesen."
+      ]
+    }
+  },
+  {
+    "id": "الصوت_والضوء",
+    "translations": {
+      "en": {
+        "name": "Sound and Light Show",
+        "description": "A captivating nighttime show at Karnak Temple narrating the history of ancient Thebes."
+      },
+      "ar": {
+        "name": "عرض الصوت والضوء",
+        "description": "عرض ليلي ساحر في معبد الكرنك يروي تاريخ طيبة القديمة."
+      },
+      "fr": {
+        "name": "Spectacle Son et Lumière",
+        "description": "Un spectacle nocturne captivant au temple de Karnak racontant l’histoire de l’ancienne Thèbes."
+      },
+      "ru": {
+        "name": "Шоу звука и света",
+        "description": "Захватывающее ночное шоу в храме Карнак, повествующее о истории древних Фив."
+      },
+      "de": {
+        "name": "Ton- und Lichtshow",
+        "description": "Eine fesselnde nächtliche Vorführung im Karnak-Tempel, die die Geschichte des alten Theben erzählt."
+      }
+    },
+    "keywords": ["عرض", "كرنك", "ثقافة", "تاريخ", "ليالي"],
+    "imageUrl": "assets/images/الصوت_والضوء.jpg",
+    "categoriesTranslations": {
+      "en": ["Entertainment", "Culture", "History"],
+      "ar": ["ترفيه", "ثقافة", "تاريخ"],
+      "fr": ["Divertissement", "Culture", "Histoire"],
+      "ru": ["Развлечения", "Культура", "История"],
+      "de": ["Unterhaltung", "Kultur", "Geschichte"]
+    },
+    "stateId": "luxor",
+    "mapUrl": "https://maps.google.com/?q=25.7167,32.6167",
+    "recommendationsTranslations": {
+      "en": [
+        "A nighttime tour through Karnak Temple with its enchanting lights.",
+        "An audio presentation narrating the story of the temple’s construction and the most significant kings of Thebes.",
+        "Light effects that stunningly highlight the details of carvings and statues.",
+        "An immersive cultural experience that transports you to ancient Egypt."
+      ],
+      "ar": [
+        "جولة ليلية وسط معبد الكرنك بأنواره الساحرة.",
+        "عرض صوتي يروي قصة بناء المعبد وأهم ملوك طيبة.",
+        "مؤثرات ضوئية تبرز تفاصيل النقوش والتماثيل بشكل مبهر.",
+        "تجربة ثقافية غامرة تنقلك لعصور مصر القديمة."
+      ],
+      "fr": [
+        "Une visite nocturne à travers le temple de Karnak avec ses lumières envoûtantes.",
+        "Une présentation audio racontant l’histoire de la construction du temple et des principaux rois de Thèbes.",
+        "Des effets lumineux qui mettent en valeur de manière spectaculaire les détails des gravures et des statues.",
+        "Une expérience culturelle immersive qui vous transporte dans l’Égypte ancienne."
+      ],
+      "ru": [
+        "Ночная экскурсия по храму Карнак с его завораживающими огнями.",
+        "Аудиопрезентация, рассказывающая историю строительства храма и о главных царях Фив.",
+        "Световые эффекты, которые потрясающе подчеркивают детали рельефов и статуй.",
+        "Погружающий культурный опыт, переносящий вас в эпоху Древнего Египта."
+      ],
+      "de": [
+        "Eine nächtliche Tour durch den Karnak-Tempel mit seinen bezaubernden Lichtern.",
+        "Eine Audiopräsentation, die die Geschichte des Tempelbaus und der bedeutendsten Könige von Theben erzählt.",
+        "Lichteffekte, die die Details der Schnitzereien und Statuen auf beeindruckende Weise hervorheben.",
+        "Ein immersives kulturelles Erlebnis, das Sie ins alte Ägypten entführt."
+      ]
+    },
+    "openTimeTranslations": {
+      "en": "Shows typically start at sunset, generally at 8 PM in summer and 7 PM in winter.",
+      "ar": "العروض تبدأ عادةً عند غروب الشمس، في الصيف غالبًا الساعة 8 مساءً، وفي الشتاء غالبًا الساعة 7 مساءً.",
+      "fr": "Les spectacles commencent généralement au coucher du soleil, en été vers 20h et en hiver vers 19h.",
+      "ru": "Шоу обычно начинаются на закате, летом, как правило, в 20:00, а зимой — в 19:00.",
+      "de": "Die Vorführungen beginnen in der Regel bei Sonnenuntergang, im Sommer meist um 20:00 Uhr und im Winter um 19:00 Uhr."
+    },
+    "pricesTranslations": {
+      "en": "Foreigners:\nIndividual ticket: EGP 300\nGroups of fewer than 6: EGP 350 per person\nSpecial offer (small groups): EGP 2000 and above\nEgyptians:\nApproximately EGP 100 per person (may vary by season)",
+      "ar": "الأجانب:\nتذكرة فردية: 300 جنيه مصري\nأقل من 6 أفراد: 350 جنيه/فرد\nعرض خاص (مجموعات صغيرة): من 2000 جنيه وما فوق\nالمصريين:\nنحو 100 جنيه للفرد (قد تختلف حسب الموسم)",
+      "fr": "Étrangers :\nBillet individuel : 300 EGP\nGroupes de moins de 6 personnes : 350 EGP par personne\nOffre spéciale (petits groupes) : 2000 EGP et plus\nÉgyptiens :\nEnviron 100 EGP par personne (peut varier selon la saison)",
+      "ru": "Иностранцы:\nИндивидуальный билет: 300 EGP\nГруппы менее 6 человек: 350 EGP на человека\nСпециальное предложение (малые группы): от 2000 EGP и выше\nЕгиптяне:\nПримерно 100 EGP на человека (может варьироваться в зависимости от сезона)",
+      "de": "Ausländer:\nEinzelkarte: 300 EGP\nGruppen mit weniger als 6 Personen: 350 EGP pro Person\nSonderangebot (kleine Gruppen): ab 2000 EGP\nÄgypter:\nEtwa 100 EGP pro Person (kann je nach Saison variieren)"
+    },
+    "nearestMetroStationTranslations": {
+      "en": {
+        "name": "No Metro",
+        "description": "The show takes place inside Karnak Temple on the East Bank in Luxor.\nClose to the city center.\nEasily accessible by taxi or on foot.\nMany tourist tours include the show in their program."
+      },
+      "ar": {
+        "name": "لا يوجد مترو",
+        "description": "يقام العرض داخل معبد الكرنك في البر الشرقي بالأقصر.\nقريب من وسط المدينة.\nيمكن الوصول إليه بسهولة بالتاكسي أو سيرًا على الأقدام.\nالعديد من الجولات السياحية تشمل العرض ضمن برنامجها."
+      },
+      "fr": {
+        "name": "Pas de métro",
+        "description": "Le spectacle a lieu à l’intérieur du temple de Karnak sur la rive est à Louxor.\nProche du centre-ville.\nFacilement accessible en taxi ou à pied.\nDe nombreuses visites touristiques incluent le spectacle dans leur programme."
+      },
+      "ru": {
+        "name": "Нет метро",
+        "description": "Шоу проходит внутри храма Карнак на восточном берегу в Луксоре.\nРядом с центром города.\nЛегко добраться на такси или пешком.\nМногие туристические туры включают шоу в свою программу."
+      },
+      "de": {
+        "name": "Kein U-Bahn",
+        "description": "Die Vorführung findet im Karnak-Tempel am Ostufer in Luxor statt.\nIn der Nähe des Stadtzentrums.\nLeicht erreichbar mit dem Taxi oder zu Fuß.\nViele Touristenführungen schließen die Show in ihr Programm ein."
+      }
+    },
+    "advantagesTranslations": {
+      "en": [
+        "Combines entertainment and education in a captivating way.",
+        "Suitable for families and tourists of all ages.",
+        "A vibrant way to explore the temple at night.",
+        "Available in multiple languages to accommodate all visitors."
+      ],
+      "ar": [
+        "يجمع بين الترفيه والتعليم بأسلوب مبهر.",
+        "مناسب للعائلات والسياح من مختلف الأعمار.",
+        "طريقة حيوية لاستكشاف المعبد ليلاً.",
+        "متاح بعدة لغات لتناسب كل الزوار."
+      ],
+      "fr": [
+        "Combine divertissement et éducation de manière captivante.",
+        "Convient aux familles et aux touristes de tous âges.",
+        "Une façon dynamique d’explorer le temple la nuit.",
+        "Disponible en plusieurs langues pour accueillir tous les visiteurs."
+      ],
+      "ru": [
+        "Сочетает развлечение и образование в увлекательной форме.",
+        "Подходит для семей и туристов всех возрастов.",
+        "Живой способ исследовать храм ночью.",
+        "Доступно на нескольких языках для удобства всех посетителей."
+      ],
+      "de": [
+        "Verbindet Unterhaltung und Bildung auf faszinierende Weise.",
+        "Geeignet für Familien und Touristen jeden Alters.",
+        "Eine lebendige Möglichkeit, den Tempel nachts zu erkunden.",
+        "In mehreren Sprachen verfügbar, um allen Besuchern gerecht zu werden."
+      ]
+    },
+    "adviceTranslations": {
+      "en": [
+        "Arrive 15 minutes early to ensure smooth entry.",
+        "Check the available language for your visit or reserve a translation headset.",
+        "It’s preferable to wear a light jacket in winter.",
+        "The weather at night is pleasant, but booking in advance is recommended during peak seasons."
+      ],
+      "ar": [
+        "الحضور قبل الموعد بـ15 دقيقة لضمان الدخول الجيد.",
+        "تأكد من اللغة المتاحة في يوم زيارتك أو احجز سماعة ترجمة.",
+        "يُفضل لبس جاكيت خفيف في الشتاء.",
+        "الجو ليلاً يكون لطيفاً لكن يُفضل الحجز المسبق في مواسم الذروة."
+      ],
+      "fr": [
+        "Arrivez 15 minutes à l’avance pour garantir une entrée fluide.",
+        "Vérifiez la langue disponible le jour de votre visite ou réservez un casque de traduction.",
+        "Il est préférable de porter une veste légère en hiver.",
+        "Le temps est agréable la nuit, mais il est recommandé de réserver à l’avance pendant les périodes de pointe."
+      ],
+      "ru": [
+        "Приходите за 15 минут до начала, чтобы обеспечить беспрепятственный вход.",
+        "Уточните доступный язык для вашего визита или зарезервируйте гарнитуру для перевода.",
+        "Желательно надеть легкую куртку зимой.",
+        "Погода ночью приятная, но рекомендуется бронировать заранее в пиковые сезоны."
+      ],
+      "de": [
+        "Kommen Sie 15 Minuten früher, um einen reibungslosen Eintritt zu gewährleisten.",
+        "Überprüfen Sie die verfügbare Sprache für Ihren Besuch oder reservieren Sie ein Übersetzungs-Headset.",
+        "Es ist ratsam, im Winter eine leichte Jacke zu tragen.",
+        "Das Wetter ist nachts angenehm, aber eine vorherige Buchung ist in der Hochsaison empfehlenswert."
+      ]
+    }
   }
 ]
