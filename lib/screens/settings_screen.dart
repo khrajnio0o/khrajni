@@ -139,7 +139,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               }).toList(),
               onChanged: (String? newValue) {
-                if (newValue != null) {
+                if (newValue != null && newValue != _currentLanguage) {
                   setState(() {
                     _currentLanguage = newValue;
                   });

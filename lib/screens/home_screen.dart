@@ -154,21 +154,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  String _getAppTitle(String lang) {
-    switch (lang) {
-      case 'ar':
-        return 'خرجني';
-      case 'en':
-        return 'Khrajni';
-      case 'fr':
-        return 'Khrajni';
-      case 'ru':
-        return 'Khrajni';
-      case 'de':
-        return 'Khrajni';
-      default:
-        return 'Khrajni';
-    }
+  String _getAppTitle() {
+    return 'KHRAJNI';
   }
 
   String _getHomeLabel(String lang) {
@@ -446,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(_getAppTitle(widget.selectedLanguage)),
+        title: Text(_getAppTitle()),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -478,6 +465,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.home),
