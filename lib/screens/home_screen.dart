@@ -1,6 +1,8 @@
+// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
+import 'package:khrajni/screens/settings_screen.dart';
 import 'package:khrajni/screens/state_detail_screen.dart';
 import 'package:khrajni/services/data_service.dart';
 import 'package:khrajni/widgets/state_card.dart';
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
   List<StateModel> filteredStates = [];
   List<Location> filteredLocations = [];
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -136,20 +139,370 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               : widget.selectedLanguage == 'en'
                   ? 'Error: $message'
                   : widget.selectedLanguage == 'fr'
-                      ? 'Erreur: $message'
+                      ? 'Erreur : $message'
                       : widget.selectedLanguage == 'ru'
                           ? 'Ошибка: $message'
                           : 'Fehler: $message',
-          style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.red,
       ),
     );
   }
 
-  Widget _buildBackground() {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  String _getAppTitle(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'خرجني';
+      case 'en':
+        return 'Khrajni';
+      case 'fr':
+        return 'Khrajni';
+      case 'ru':
+        return 'Khrajni';
+      case 'de':
+        return 'Khrajni';
+      default:
+        return 'Khrajni';
+    }
+  }
+
+  String _getHomeLabel(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'الرئيسية';
+      case 'en':
+        return 'Home';
+      case 'fr':
+        return 'Accueil';
+      case 'ru':
+        return 'Главная';
+      case 'de':
+        return 'Startseite';
+      default:
+        return 'Home';
+    }
+  }
+
+  String _getCategoriesLabel(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'الفئات';
+      case 'en':
+        return 'Categories';
+      case 'fr':
+        return 'Catégories';
+      case 'ru':
+        return 'Категории';
+      case 'de':
+        return 'Kategorien';
+      default:
+        return 'Categories';
+    }
+  }
+
+  String _getFavoritesLabel(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'المفضلة';
+      case 'en':
+        return 'Favorites';
+      case 'fr':
+        return 'Favoris';
+      case 'ru':
+        return 'Избранное';
+      case 'de':
+        return 'Favoriten';
+      default:
+        return 'Favorites';
+    }
+  }
+
+  String _getPlanLabel(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'خطتك';
+      case 'en':
+        return 'Your Plan';
+      case 'fr':
+        return 'Votre Plan';
+      case 'ru':
+        return 'Ваш План';
+      case 'de':
+        return 'Ihr Plan';
+      default:
+        return 'Your Plan';
+    }
+  }
+
+  String _getSectionTitle(int index, String lang) {
+    switch (index) {
+      case 1:
+        return lang == 'ar'
+            ? 'الفئات قيد التطوير'
+            : lang == 'en'
+                ? 'Categories under development'
+                : lang == 'fr'
+                    ? 'Catégories en développement'
+                    : lang == 'ru'
+                        ? 'Категории в разработке'
+                        : 'Kategorien in Entwicklung';
+      case 2:
+        return lang == 'ar'
+            ? 'المفضلة قيد التطوير'
+            : lang == 'en'
+                ? 'Favorites under development'
+                : lang == 'fr'
+                    ? 'Favoris en développement'
+                    : lang == 'ru'
+                        ? 'Избранное в разработке'
+                        : 'Favoriten in Entwicklung';
+      case 3:
+        return lang == 'ar'
+            ? 'خطتك قيد التطوير'
+            : lang == 'en'
+                ? 'Your Plan under development'
+                : lang == 'fr'
+                    ? 'Votre Plan en développement'
+                    : lang == 'ru'
+                        ? 'Ваш План в разработке'
+                        : 'Ihr Plan in Entwicklung';
+      default:
+        return '';
+    }
+  }
+
+  Widget _buildHomeContent() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: _searchData,
+              decoration: InputDecoration(
+                hintText: widget.selectedLanguage == 'ar'
+                    ? 'ابحث عن وجهة (مثل القاهرة، الهرم)'
+                    : widget.selectedLanguage == 'en'
+                        ? 'Search for a destination (e.g. Cairo, Pyramids)'
+                        : widget.selectedLanguage == 'fr'
+                            ? 'Rechercher une destination (ex. Le Caire, Pyramides)'
+                            : widget.selectedLanguage == 'ru'
+                                ? 'Поиск места (например, Каир, Пирамиды)'
+                                : 'Suche nach einem Ziel (z.B. Kairo, Pyramiden)',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              ),
+            ),
+          ),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : SlideTransition(
+                    position: _slideAnimation,
+                    child: FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (filteredStates.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.selectedLanguage == 'ar'
+                                          ? 'المحافظات'
+                                          : widget.selectedLanguage == 'en'
+                                              ? 'States'
+                                              : widget.selectedLanguage == 'fr'
+                                                  ? 'États'
+                                                  : widget.selectedLanguage ==
+                                                          'ru'
+                                                      ? 'Штаты'
+                                                      : 'Staaten',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDarkMode
+                                            ? Colors.white70
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    SizedBox(
+                                      height: 200,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: filteredStates.length,
+                                        itemBuilder: (context, index) {
+                                          final state =
+                                              filteredStates[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 16.0),
+                                            child: StateCard(
+                                              state: state,
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        StateDetailScreen(
+                                                      state: state,
+                                                      selectedLanguage: widget
+                                                          .selectedLanguage,
+                                                      updateLanguage:
+                                                          widget.updateLanguage,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              selectedLanguage:
+                                                  widget.selectedLanguage,
+                                              isDarkMode: isDarkMode,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              if (filteredLocations.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      widget.selectedLanguage == 'ar'
+                                          ? 'أماكن الجذب'
+                                          : widget.selectedLanguage == 'en'
+                                              ? 'Attractions'
+                                              : widget.selectedLanguage ==
+                                                      'fr'
+                                                  ? 'Attractions'
+                                                  : widget.selectedLanguage ==
+                                                          'ru'
+                                                      ? 'Достопримечательности'
+                                                      : 'Attraktionen',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDarkMode
+                                            ? Colors.white70
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ...filteredLocations.map((location) {
+                                      return LocationCard(
+                                        location: location,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StateDetailScreen(
+                                                state: states.firstWhere(
+                                                    (s) =>
+                                                        s.id ==
+                                                        location.stateId),
+                                                selectedLanguage:
+                                                    widget.selectedLanguage,
+                                                updateLanguage:
+                                                    widget.updateLanguage,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        selectedLanguage:
+                                            widget.selectedLanguage,
+                                        isDarkMode: isDarkMode,
+                                      );
+                                    }).toList(),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_getAppTitle(widget.selectedLanguage)),
+        leading: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingsScreen(
+                  selectedLanguage: widget.selectedLanguage,
+                  updateLanguage: widget.updateLanguage,
+                  themeMode: widget.themeMode,
+                  toggleTheme: widget.toggleTheme,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+      body: _selectedIndex == 0
+          ? _buildHomeContent()
+          : Center(
+              child: Text(
+                _getSectionTitle(_selectedIndex, widget.selectedLanguage),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: isDarkMode ? Colors.white70 : Colors.black87,
+                ),
+              ),
+            ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home),
+            label: _getHomeLabel(widget.selectedLanguage),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.category),
+            label: _getCategoriesLabel(widget.selectedLanguage),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.favorite),
+            label: _getFavoritesLabel(widget.selectedLanguage),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.assignment),
+            label: _getPlanLabel(widget.selectedLanguage),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -159,315 +512,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _slideController.dispose();
     _searchController.dispose();
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = widget.themeMode == ThemeMode.dark;
-    final appBarBackgroundColor = isDarkMode ? Colors.grey[850] : Colors.blue;
-    final appBarForegroundColor = Colors.white;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'خرجني',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: appBarBackgroundColor,
-        foregroundColor: appBarForegroundColor,
-        actions: [
-          Row(
-            children: [
-              DropdownButton<String>(
-                value: widget.selectedLanguage,
-                dropdownColor: appBarBackgroundColor,
-                style: TextStyle(color: appBarForegroundColor),
-                iconEnabledColor: appBarForegroundColor,
-                items: const {
-                  'en': 'English',
-                  'ar': 'العربية',
-                  'fr': 'Français',
-                  'ru': 'Русский',
-                  'de': 'Deutsch',
-                }.entries.map((entry) {
-                  return DropdownMenuItem<String>(
-                    value: entry.key,
-                    child: Text(entry.value),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    widget.updateLanguage(newValue);
-                  }
-                },
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: Icon(
-                  widget.themeMode == ThemeMode.light
-                      ? Icons.dark_mode
-                      : Icons.light_mode,
-                  color: appBarForegroundColor,
-                ),
-                onPressed: widget.toggleTheme,
-                tooltip: widget.selectedLanguage == 'ar'
-                    ? 'تبديل الوضع'
-                    : widget.selectedLanguage == 'en'
-                        ? 'Toggle Theme'
-                        : widget.selectedLanguage == 'fr'
-                            ? 'Changer de thème'
-                            : widget.selectedLanguage == 'ru'
-                                ? 'Переключить тему'
-                                : 'Thema wechseln',
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Positioned.fill(child: _buildBackground()),
-          SafeArea(
-            child: Column(
-              children: [
-                SlideTransition(
-                  position: _slideAnimation,
-                  child: FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                      padding: const EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: isDarkMode ? Colors.grey[800] : Colors.grey[100],
-                        borderRadius: BorderRadius.circular(16.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: isDarkMode
-                                ? Colors.black.withOpacity(0.3)
-                                : Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        widget.selectedLanguage == 'ar'
-                            ? 'اختر المحافظة التي تزورها واكتشف أماكن الجذب المميزة في مصر الحبيبة'
-                            : widget.selectedLanguage == 'en'
-                                ? 'Choose a governorate to visit and discover the unique attractions in beloved Egypt'
-                                : widget.selectedLanguage == 'fr'
-                                    ? 'Choisissez un gouvernorat à visiter et découvrez les attractions uniques de l\'Égypte bien-aimée'
-                                    : widget.selectedLanguage == 'ru'
-                                        ? 'Выберите мухафазат для посещения и откройте уникальные достопримечательности любимого Египта'
-                                        : 'Wählen Sie ein Gouvernement zum Besuch und entdecken Sie die einzigartigen Attraktionen des geliebten Ägypten',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: isDarkMode ? Colors.white70 : Colors.black87,
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: _searchData,
-                    decoration: InputDecoration(
-                      hintText: widget.selectedLanguage == 'ar'
-                          ? 'ابحث عن محافظات أو أماكن الجذب (مثل: القاهرة، المتحف)'
-                          : widget.selectedLanguage == 'en'
-                              ? 'Search for governorates or attractions (e.g., Cairo, Museum)'
-                              : widget.selectedLanguage == 'fr'
-                                  ? 'Recherchez des gouvernorats ou attractions (ex. Le Caire, Musée)'
-                                  : widget.selectedLanguage == 'ru'
-                                      ? 'Поиск мухафазатов или достопримечательностей (например, Каир, Музей)'
-                                      : 'Suchen Sie Gouvernements oder Attraktionen (z. B. Kairo, Museum)',
-                      prefixIcon: Icon(Icons.search,
-                          color:
-                              isDarkMode ? Colors.white70 : Colors.grey[600]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 20.0),
-                      filled: true,
-                      fillColor:
-                          isDarkMode ? Colors.grey[800] : Colors.grey[200],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              isDarkMode
-                                  ? Colors.white70
-                                  : Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        )
-                      : filteredStates.isEmpty && filteredLocations.isEmpty
-                          ? Center(
-                              child: Text(
-                                widget.selectedLanguage == 'ar'
-                                    ? 'لا توجد نتائج مطابقة لبحثك'
-                                    : widget.selectedLanguage == 'en'
-                                        ? 'No results match your search'
-                                        : widget.selectedLanguage == 'fr'
-                                            ? 'Aucun résultat ne correspond à votre recherche'
-                                            : widget.selectedLanguage == 'ru'
-                                                ? 'Нет результатов, соответствующих вашему поиску'
-                                                : 'Keine Ergebnisse entsprechen Ihrer Suche',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: isDarkMode
-                                      ? Colors.white70
-                                      : Colors.black87,
-                                ),
-                              ),
-                            )
-                          : ListView(
-                              padding: const EdgeInsets.all(16.0),
-                              children: [
-                                if (filteredStates.isNotEmpty)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.selectedLanguage == 'ar'
-                                            ? 'المحافظات'
-                                            : widget.selectedLanguage == 'en'
-                                                ? 'Governorates'
-                                                : widget.selectedLanguage ==
-                                                        'fr'
-                                                    ? 'Gouvernorats'
-                                                    : widget.selectedLanguage ==
-                                                            'ru'
-                                                        ? 'Мухафазаты'
-                                                        : 'Gouvernements',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: isDarkMode
-                                              ? Colors.white70
-                                              : Colors.black87,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ...filteredStates.map((state) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom:
-                                                  16.0), // Added spacing between states
-                                          child: StateCard(
-                                            state: state,
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                PageRouteBuilder(
-                                                  pageBuilder: (context,
-                                                          animation,
-                                                          secondaryAnimation) =>
-                                                      StateDetailScreen(
-                                                    state: state,
-                                                    selectedLanguage:
-                                                        widget.selectedLanguage,
-                                                    updateLanguage:
-                                                        widget.updateLanguage,
-                                                  ),
-                                                  transitionsBuilder: (context,
-                                                      animation,
-                                                      secondaryAnimation,
-                                                      child) {
-                                                    return SlideTransition(
-                                                      position: Tween<Offset>(
-                                                        begin: const Offset(
-                                                            1.0, 0.0),
-                                                        end: Offset.zero,
-                                                      ).animate(animation),
-                                                      child: child,
-                                                    );
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                            selectedLanguage:
-                                                widget.selectedLanguage,
-                                            isDarkMode: isDarkMode,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ],
-                                  ),
-                                if (filteredLocations.isNotEmpty)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        widget.selectedLanguage == 'ar'
-                                            ? 'أماكن الجذب'
-                                            : widget.selectedLanguage == 'en'
-                                                ? 'Attractions'
-                                                : widget.selectedLanguage ==
-                                                        'fr'
-                                                    ? 'Attractions'
-                                                    : widget.selectedLanguage ==
-                                                            'ru'
-                                                        ? 'Достопримечательности'
-                                                        : 'Attraktionen',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: isDarkMode
-                                              ? Colors.white70
-                                              : Colors.black87,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ...filteredLocations.map((location) {
-                                        return LocationCard(
-                                          location: location,
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    StateDetailScreen(
-                                                  state: states.firstWhere(
-                                                      (s) =>
-                                                          s.id ==
-                                                          location.stateId),
-                                                  selectedLanguage:
-                                                      widget.selectedLanguage,
-                                                  updateLanguage:
-                                                      widget.updateLanguage,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          selectedLanguage:
-                                              widget.selectedLanguage,
-                                          isDarkMode: isDarkMode,
-                                        );
-                                      }).toList(),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -515,5 +515,145 @@
         "Das Wetter ist nachts angenehm, aber eine vorherige Buchung ist in der Hochsaison empfehlenswert."
       ]
     }
+  },
+  
+  {
+    "id": "معبد_الأقصر",
+    "translations": {
+      "en": {
+        "name": "Luxor Temple",
+        "description": "A large ancient Egyptian temple complex located on the east bank of the Nile River in Luxor, dedicated to the Theban Triad."
+      },
+      "ar": {
+        "name": "معبد الأقصر",
+        "description": "مجمع معبد مصري قديم كبير يقع على الضفة الشرقية لنهر النيل في الأقصر، مكرس لثالوث طيبة."
+      },
+      "fr": {
+        "name": "Temple de Louxor",
+        "description": "Un grand complexe de temples égyptiens anciens situé sur la rive est du Nil à Louxor, dédié à la Triade thébaine."
+      },
+      "ru": {
+        "name": "Храм Луксора",
+        "description": "Большой древнеегипетский храмовый комплекс, расположенный на восточном берегу Нила в Луксоре, посвящённый Фиванской триаде."
+      },
+      "de": {
+        "name": "Luxor-Tempel",
+        "description": "Ein großer antiker ägyptischer Tempelkomplex am Ostufer des Nils in Luxor, dem thebanischen Triad gewidmet."
+      }
+    },
+    "keywords": ["معبد", "تاريخ", "الأقصر", "نيل", "آثار"],
+    "imageUrl": "assets/images/معبد_الأقصر.jpg",
+    "categoriesTranslations": {
+      "en": ["Antiquities", "History", "Temples"],
+      "ar": ["آثار", "تاريخ", "معابد"],
+      "fr": ["Antiquités", "Histoire", "Temples"],
+      "ru": ["Древности", "История", "Храмы"],
+      "de": ["Antiquitäten", "Geschichte", "Tempel"]
+    },
+    "stateId": "luxor",
+    "mapUrl": "https://maps.google.com/?q=25.7003,32.6396",
+    "recommendationsTranslations": {
+      "en": [
+        "Stroll through the central avenue and among the columns to reach the hypostyle hall, inner courtyards, and circle the large statues.",
+        "Visit the Abu al-Haggag Mosque built within the site – a unique example of cultural fusion between Islamic and Pharaonic civilizations.",
+        "Enjoy the nighttime lighting for a visit after sunset (lighting show) or simply wander safely in cooler, more pleasant conditions."
+      ],
+      "ar": [
+        "تجول في الممر المركزي وداخل الأعمدة للوصول إلى قاعة الأعمدة والساحات الداخلية والطواف حول التماثيل الكبيرة.",
+        "زيارة مسجد أبو الحجاج الذي أقيم داخل الموقع – مثال فريد لتلاقح الثقافات بين الحضارة الإسلامية والفراعنة.",
+        "الاستمتاع بالإضاءة الليلية للزيارة بعد الغروب (عرض الإضاءة) أو التجول بأمان في أجواء أقل حرارة."
+      ],
+      "fr": [
+        "Promenez-vous dans l’avenue centrale et parmi les colonnes pour atteindre la salle hypostyle, les cours intérieures et contourner les grandes statues.",
+        "Visitez la mosquée Abu al-Haggag construite à l’intérieur du site – un exemple unique de fusion culturelle entre les civilisations islamique et pharaonique.",
+        "Profitez de l’éclairage nocturne pour une visite après le coucher du soleil (spectacle d’éclairage) ou flânez en toute sécurité dans des conditions plus fraîches et agréables."
+      ],
+      "ru": [
+        "Прогуляйтесь по центральной аллее и среди колонн, чтобы добраться до гипостильного зала, внутренних дворов и обойти большие статуи.",
+        "Посетите мечеть Абу аль-Хаггаг, построенную на территории – уникальный пример слияния исламской и фараоновской культур.",
+        "Насладитесь ночной подсветкой для посещения после заката (шоу освещения) или просто безопасно прогуляйтесь в более прохладной и приятной атмосфере."
+      ],
+      "de": [
+        "Spazieren Sie durch die zentrale Allee und zwischen den Säulen, um den Hypostylensaal, die Innenhöfe zu erreichen und die großen Statuen zu umrunden.",
+        "Besuchen Sie die Abu-al-Haggag-Moschee, die innerhalb der Stätte erbaut wurde – ein einzigartiges Beispiel für die Verschmelzung islamischer und pharaonischer Kulturen.",
+        "Genießen Sie die nächtliche Beleuchtung für einen Besuch nach Sonnenuntergang (Lichtshow) oder schlendern Sie sicher in kühleren, angenehmeren Bedingungen."
+      ]
+    },
+    "openTimeTranslations": {
+      "en": "Daily from 6:00 AM to 8:00 PM (last entry one hour before closing)\nOccasionally, extended hours may be available during Ramadan and special evening events.",
+      "ar": "يوميًا من 06:00 صباحًا حتى 20:00 مساءً (آخر دخول قبل ساعة من الإغلاق)\nأحيانًا، خلال رمضان والسهرات الليلية قد تكون متاحة.",
+      "fr": "Tous les jours de 6h00 à 20h00 (dernière entrée une heure avant la fermeture)\nParfois, des horaires prolongés peuvent être disponibles pendant le Ramadan et les événements nocturnes spéciaux.",
+      "ru": "Ежедневно с 06:00 до 20:00 (последний вход за час до закрытия)\nИногда могут быть доступны продлённые часы во время Рамадана и специальных вечерних мероприятий.",
+      "de": "Täglich von 06:00 bis 20:00 Uhr (letzter Einlass eine Stunde vor Schließung)\nGelegentlich können während des Ramadan und besonderer Abendveranstaltungen verlängerte Öffnungszeiten verfügbar sein."
+    },
+    "pricesTranslations": {
+      "en": "Egyptians / Arabs:\nAdults: EGP 40\nStudents: EGP 20\nForeigners:\nAdults: EGP 500\nStudents: EGP 250",
+      "ar": "المصريون / العرب:\nكبار: 40 ج.م\nطالب: 20 ج.م\nالأجانب:\nكبار: 500 ج.م\nطالب: 250 ج.م",
+      "fr": "Égyptiens / Arabes :\nAdultes : 40 EGP\nÉtudiants : 20 EGP\nÉtrangers :\nAdultes : 500 EGP\nÉtudiants : 250 EGP",
+      "ru": "Египтяне / Арабы:\nВзрослые: 40 EGP\nСтуденты: 20 EGP\nИностранцы:\nВзрослые: 500 EGP\nСтуденты: 250 EGP",
+      "de": "Ägypter / Araber:\nErwachsene: 40 EGP\nStudenten: 20 EGP\nAusländer:\nErwachsene: 500 EGP\nStudenten: 250 EGP"
+    },
+    "nearestMetroStationTranslations": {
+      "en": {
+        "name": "No Metro",
+        "description": "Located in the heart of Luxor city on the eastern banks of the Nile, clearly visible on Google Maps as \"Luxor Temple, Luxor\"\nEasiest way to reach: Uber/Careem or taxi from the city center\nA historical tourist route, the Avenue of the Sphinxes, also called the \"Royal Celebrations Street,\" connects Karnak Temple to Luxor Temple."
+      },
+      "ar": {
+        "name": "لا يوجد مترو",
+        "description": "يقع في قلب مدينة الأقصر على ضفاف النيل الشرقية، وهو ظاهر بشكل واضح في خرائط Google تحت اسم \"Luxor Temple, Luxor\"\nأسهل طريقة للوصول: أوبر/كريم أو تاكسي من وسط المدينة\nيوجد طريق سياحي تاريخي، طريق الكباش، يسمى أيضًا \"شارع الاحتفالات الملكية\"، يربط بين معبد الكرنك والأقصر."
+      },
+      "fr": {
+        "name": "Pas de métro",
+        "description": "Situé au cœur de la ville de Louxor sur les rives orientales du Nil, clairement visible sur Google Maps sous le nom \"Temple de Louxor, Louxor\"\nMoyen le plus simple pour y accéder : Uber/Careem ou taxi depuis le centre-ville\nUn itinéraire touristique historique, l’Avenue des Sphinx, également appelée \"Rue des Célébrations Royales\", relie le temple de Karnak au temple de Louxor."
+      },
+      "ru": {
+        "name": "Нет метро",
+        "description": "Расположен в самом центре города Луксор на восточном берегу Нила, ясно обозначен на Google Maps как \"Luxor Temple, Luxor\"\nСамый простой способ добраться: Uber/Careem или такси из центра города\nИсторический туристический маршрут, Аллея Сфинксов, также называемая \"Улицей Королевских Празднеств\", соединяет храм Карнак с храмом Луксора."
+      },
+      "de": {
+        "name": "Kein U-Bahn",
+        "description": "Im Herzen der Stadt Luxor am östlichen Nilufer gelegen, deutlich sichtbar auf Google Maps als \"Luxor-Tempel, Luxor\"\nEinfachste Anreise: Uber/Careem oder Taxi aus dem Stadtzentrum\nEine historische Touristenroute, die Sphinxallee, auch \"Straße der Königlichen Feste\" genannt, verbindet den Karnak-Tempel mit dem Luxor-Tempel."
+      }
+    },
+    "advantagesTranslations": {
+      "en": ["Rich historical significance", "Unique architectural blend", "Nighttime lighting experience", "Central location"],
+      "ar": ["أهمية تاريخية غنية", "توليف معماري فريد", "تجربة الإضاءة الليلية", "موقع مركزي"],
+      "fr": ["Richesse historique", "Mélange architectural unique", "Expérience d’éclairage nocturne", "Emplacement central"],
+      "ru": ["Богатое историческое значение", "Уникальное архитектурное сочетание", "Опыт ночного освещения", "Центральное расположение"],
+      "de": ["Reiche historische Bedeutung", "Einzigartige architektonische Mischung", "Nachtbeleuchtungserlebnis", "Zentrale Lage"]
+    },
+    "adviceTranslations": {
+      "en": [
+        "Best time: Afternoon to sunset or at dawn to avoid the sun and capture better photos.",
+        "Wear light clothing to protect against the weather and bring water and a sunshade.",
+        "Mobile phone cameras are usually free, but if you want to use a professional camera, check first to avoid extra fees.",
+        "I recommend using a tour guide (Arabic/English) to fully benefit from all the site’s details."
+      ],
+      "ar": [
+        "أفضل وقت: بعد العصر إلى غروب الشمس أو في الفجر لتفادي الشمس والقدرة على التقاط صور أجمل.",
+        "ارتد ملابس خفيفة للحماية من الطقس واحمل ماء وشمسية.",
+        "كاميرات الموبايل عادةً مجانًا، لكن إذا أردت التصوير بكاميرا احترافية، استفسر أولاً لتجنب رسوم إضافية.",
+        "أنصح باستخدام مرشد سياحي (عربي/إنجليزي) للاستفادة القصوى من كل تفاصيل الموقع."
+      ],
+      "fr": [
+        "Meilleur moment : l’après-midi jusqu’au coucher du soleil ou à l’aube pour éviter le soleil et prendre de meilleures photos.",
+        "Portez des vêtements légers pour vous protéger du temps et apportez de l’eau et un parasol.",
+        "Les appareils photo de téléphone portable sont généralement gratuits, mais si vous souhaitez utiliser un appareil photo professionnel, renseignez-vous d’abord pour éviter des frais supplémentaires.",
+        "Je recommande d’utiliser un guide touristique (arabe/anglais) pour profiter pleinement de tous les détails du site."
+      ],
+      "ru": [
+        "Лучшее время: после обеда до заката или на рассвете, чтобы избежать солнца и сделать лучшие фотографии.",
+        "Носите лёгкую одежду для защиты от погоды и берите с собой воду и зонт.",
+        "Камеры мобильных телефонов обычно бесплатны, но если вы хотите использовать профессиональную камеру, сначала уточните, чтобы избежать дополнительных сборов.",
+        "Рекомендую воспользоваться услугами гида (на арабском/английском), чтобы полностью изучить все детали места."
+      ],
+      "de": [
+        "Beste Zeit: Nachmittag bis Sonnenuntergang oder bei Morgendämmerung, um die Sonne zu meiden und bessere Fotos zu machen.",
+        "Tragen Sie leichte Kleidung zum Schutz vor dem Wetter und bringen Sie Wasser und einen Sonnenschirm mit.",
+        "Mobiltelefonkameras sind in der Regel kostenlos, aber wenn Sie eine professionelle Kamera verwenden möchten, erkundigen Sie sich zuerst, um zusätzliche Gebühren zu vermeiden.",
+        "Ich empfehle, einen Reiseführer (Arabisch/Englisch) zu nutzen, um alle Details des Ortes optimal zu erleben."
+      ]
+    }
   }
+
 ]
