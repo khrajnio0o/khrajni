@@ -121,58 +121,77 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text(_getSettingsTitle(_currentLanguage)),
       ),
       body: ListView(
+        padding: const EdgeInsets.all(16.0),
         children: [
-          ListTile(
-            title: Text(_getLanguageTitle(_currentLanguage)),
-            trailing: DropdownButton<String>(
-              value: _currentLanguage,
-              items: const {
-                'en': 'English',
-                'ar': 'العربية',
-                'fr': 'Français',
-                'ru': 'Русский',
-                'de': 'Deutsch',
-              }.entries.map((entry) {
-                return DropdownMenuItem<String>(
-                  value: entry.key,
-                  child: Text(entry.value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                if (newValue != null && newValue != _currentLanguage) {
-                  setState(() {
-                    _currentLanguage = newValue;
-                  });
-                  widget.updateLanguage(newValue);
-                }
-              },
+          Text(
+            _getLanguageTitle(_currentLanguage),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: isDarkMode ? Colors.grey[700]! : Colors.grey[300]!),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: _currentLanguage,
+                items: const {
+                  'en': 'English',
+                  'ar': 'العربية',
+                  'fr': 'Français',
+                  'ru': 'Русский',
+                  'de': 'Deutsch',
+                }.entries.map((entry) {
+                  return DropdownMenuItem<String>(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null && newValue != _currentLanguage) {
+                    setState(() {
+                      _currentLanguage = newValue;
+                    });
+                    widget.updateLanguage(newValue);
+                  }
+                },
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white70 : Colors.black87,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
+          const SizedBox(height: 16),
+          Text(
+            _getAppearanceTitle(_currentLanguage),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
           SwitchListTile(
-            title: Text(_getAppearanceTitle(_currentLanguage)),
+            title: const Text('Dark Mode'),
             value: widget.themeMode == ThemeMode.dark,
             onChanged: (_) => widget.toggleTheme(),
             secondary: Icon(widget.themeMode == ThemeMode.dark
                 ? Icons.dark_mode
                 : Icons.light_mode),
           ),
-          ListTile(
-            title: Text(_getHelpTitle(_currentLanguage)),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(_getHelpTitle(_currentLanguage)),
-                  content: Text(_getHelpContent(_currentLanguage)),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(_currentLanguage == 'ar' ? 'إغلاق' : 'Close'),
-                    ),
-                  ],
-                ),
-              );
-            },
+          const SizedBox(height: 16),
+          Text(
+            _getHelpTitle(_currentLanguage),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _getHelpContent(_currentLanguage),
+            style: TextStyle(
+              fontSize: 16,
+              color: isDarkMode ? Colors.white70 : Colors.black87,
+            ),
           ),
         ],
       ),

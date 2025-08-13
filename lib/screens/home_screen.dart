@@ -1,5 +1,6 @@
 // lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
 import 'package:khrajni/screens/settings_screen.dart';
@@ -37,13 +38,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
   List<StateModel> filteredStates = [];
   List<Location> filteredLocations = [];
+  List<Location> nearbyLocations = [];
   int _selectedIndex = 0;
+  Position? _currentPosition;
+  bool _locationPermissionGranted = false;
+  String? currentStateId;
 
   @override
   void initState() {
     super.initState();
     _initializeAnimations();
     _loadData();
+    _requestLocationPermission();
   }
 
   void _initializeAnimations() {
@@ -92,11 +98,106 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  Future<void> _requestLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        setState(() {
+          _locationPermissionGranted = false;
+        });
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      setState(() {
+        _locationPermissionGranted = false;
+      });
+      return;
+    }
+    setState(() {
+      _locationPermissionGranted = true;
+    });
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      _currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      _determineCurrentState();
+      _filterNearbyLocations();
+    } catch (e) {
+      _showError('Error getting location: $e');
+    }
+  }
+
+  void _determineCurrentState() {
+    if (_currentPosition == null || states.isEmpty) {
+      setState(() {
+        currentStateId = states.isNotEmpty ? states.first.id : null;
+      });
+      return;
+    }
+    final double userLat = _currentPosition!.latitude;
+    final double userLon = _currentPosition!.longitude;
+    StateModel? nearestState = states.firstWhere(
+      (state) {
+        final String? coords = state.imageUrl.split('/@').length > 1
+            ? state.imageUrl.split('/@')[1].split('/')[0]
+            : null;
+        if (coords == null) return false;
+        final List<String> latLon = coords.split(',');
+        final double stateLat = double.tryParse(latLon[0]) ?? 0.0;
+        final double stateLon = double.tryParse(latLon[1]) ?? 0.0;
+        final double distance =
+            Geolocator.distanceBetween(userLat, userLon, stateLat, stateLon);
+        return distance <= 50000; // 50 km radius
+      },
+      orElse: () => states.first, // Default to first state if no match
+    );
+    setState(() {
+      currentStateId = nearestState.id;
+    });
+  }
+
+  void _filterNearbyLocations() {
+    if (_currentPosition == null || currentStateId == null) return;
+    final double userLat = _currentPosition!.latitude;
+    final double userLon = _currentPosition!.longitude;
+    setState(() {
+      nearbyLocations = allLocations.where((location) {
+        final String? coords = location.mapUrl.split('/@').length > 1
+            ? location.mapUrl.split('/@')[1].split('/')[0]
+            : null;
+        if (coords == null) return false;
+        final List<String> latLon = coords.split(',');
+        final double locLat = double.tryParse(latLon[0]) ?? 0.0;
+        final double locLon = double.tryParse(latLon[1]) ?? 0.0;
+        final double distance =
+            Geolocator.distanceBetween(userLat, userLon, locLat, locLon);
+        return distance <= 50000 &&
+            location.stateId == currentStateId; // Same governorate
+      }).toList();
+      filteredLocations = allLocations
+          .where((location) => !nearbyLocations.contains(location))
+          .toList();
+      filteredStates =
+          states.where((state) => state.id == currentStateId).toList();
+    });
+  }
+
   void _searchData(String query) {
     if (query.isEmpty) {
       setState(() {
-        filteredStates = states;
-        filteredLocations = allLocations;
+        if (_locationPermissionGranted && _currentPosition != null) {
+          _filterNearbyLocations();
+        } else {
+          filteredStates = states;
+          filteredLocations = allLocations;
+          nearbyLocations = [];
+        }
       });
       return;
     }
@@ -127,6 +228,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               location.keywords.any((keyword) =>
                   keyword.toLowerCase().contains(query.toLowerCase())))
           .toList();
+      nearbyLocations = []; // Clear nearby on search
     });
   }
 
@@ -348,8 +450,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       state: state,
                                                       selectedLanguage: widget
                                                           .selectedLanguage,
-                                                      updateLanguage:
-                                                          widget.updateLanguage,
                                                     ),
                                                   ),
                                                 );
@@ -364,7 +464,109 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ],
                                 ),
-                              if (filteredLocations.isNotEmpty)
+                              if (_locationPermissionGranted &&
+                                  nearbyLocations.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      widget.selectedLanguage == 'ar'
+                                          ? 'أماكن قريبة'
+                                          : widget.selectedLanguage == 'en'
+                                              ? 'Nearby Attractions'
+                                              : widget.selectedLanguage == 'fr'
+                                                  ? 'Attractions à proximité'
+                                                  : widget.selectedLanguage ==
+                                                          'ru'
+                                                      ? 'Близкие достопримечательности'
+                                                      : 'Nahegelegene Attraktionen',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDarkMode
+                                            ? Colors.white70
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ...nearbyLocations.map((location) {
+                                      return LocationCard(
+                                        location: location,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StateDetailScreen(
+                                                state: states.firstWhere((s) =>
+                                                    s.id == location.stateId),
+                                                selectedLanguage:
+                                                    widget.selectedLanguage,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        selectedLanguage:
+                                            widget.selectedLanguage,
+                                        isDarkMode: isDarkMode,
+                                      );
+                                    }).toList(),
+                                  ],
+                                ),
+                              if (_locationPermissionGranted &&
+                                  filteredLocations.isNotEmpty)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      widget.selectedLanguage == 'ar'
+                                          ? 'أماكن جذب أخرى'
+                                          : widget.selectedLanguage == 'en'
+                                              ? 'Other Attractions'
+                                              : widget.selectedLanguage == 'fr'
+                                                  ? 'Autres attractions'
+                                                  : widget.selectedLanguage ==
+                                                          'ru'
+                                                      ? 'Другие достопримечательности'
+                                                      : 'Andere Attraktionen',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDarkMode
+                                            ? Colors.white70
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ...filteredLocations.map((location) {
+                                      return LocationCard(
+                                        location: location,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StateDetailScreen(
+                                                state: states.firstWhere((s) =>
+                                                    s.id == location.stateId),
+                                                selectedLanguage:
+                                                    widget.selectedLanguage,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        selectedLanguage:
+                                            widget.selectedLanguage,
+                                        isDarkMode: isDarkMode,
+                                      );
+                                    }).toList(),
+                                  ],
+                                ),
+                              if (!_locationPermissionGranted ||
+                                  (nearbyLocations.isEmpty &&
+                                      filteredLocations.isEmpty))
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -389,7 +591,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    ...filteredLocations.map((location) {
+                                    ...allLocations.map((location) {
                                       return LocationCard(
                                         location: location,
                                         onTap: () {
@@ -402,8 +604,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     s.id == location.stateId),
                                                 selectedLanguage:
                                                     widget.selectedLanguage,
-                                                updateLanguage:
-                                                    widget.updateLanguage,
                                               ),
                                             ),
                                           );
@@ -452,6 +652,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
           ),
         ],
+        backgroundColor: isDarkMode ? Colors.transparent : null,
+        elevation: isDarkMode ? 0 : 4,
       ),
       body: _selectedIndex == 0
           ? _buildHomeContent()
@@ -469,19 +671,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         elevation: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
+            icon: Image.asset('assets/images/icons/custom_home.png',
+                width: 24, height: 24),
             label: _getHomeLabel(widget.selectedLanguage),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.category),
+            icon: Image.asset('assets/images/icons/custom_categories.png',
+                width: 24, height: 24),
             label: _getCategoriesLabel(widget.selectedLanguage),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite),
+            icon: Image.asset('assets/images/icons/custom_favorites.png',
+                width: 24, height: 24),
             label: _getFavoritesLabel(widget.selectedLanguage),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.assignment),
+            icon: Image.asset('assets/images/icons/custom_plan.png',
+                width: 24, height: 24),
             label: _getPlanLabel(widget.selectedLanguage),
           ),
         ],

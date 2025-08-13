@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.2.1
+  geolocator: ^9.0.2  # Add this for location services
   equatable: ^2.0.5
   shared_preferences: ^2.2.0
   url_launcher: ^6.1.5
@@ -35,6 +36,10 @@ flutter:
     - assets/images/
     - assets/images/states/
     - assets/data/
+    - assets/images/icons/custom_home.png
+    - assets/images/icons/custom_categories.png
+    - assets/images/icons/custom_favorites.png
+    - assets/images/icons/custom_plan.png
   
   fonts:
     - family: Tajawal

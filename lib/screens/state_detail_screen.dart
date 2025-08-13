@@ -1,241 +1,181 @@
+// lib/screens/state_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
-import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/services/data_service.dart';
-import 'package:khrajni/services/similarity_service.dart';
 import 'package:khrajni/widgets/location_card.dart';
 
-class StateDetailScreen extends StatefulWidget {
+class StateDetailScreen extends StatelessWidget {
   final StateModel state;
   final String selectedLanguage;
-  final Function(String) updateLanguage;
 
   const StateDetailScreen({
     Key? key,
     required this.state,
     required this.selectedLanguage,
-    required this.updateLanguage,
   }) : super(key: key);
 
-  @override
-  State<StateDetailScreen> createState() => _StateDetailScreenState();
-}
-
-class _StateDetailScreenState extends State<StateDetailScreen> {
-  List<Location> allLocations = [];
-  List<Location> filteredLocations = [];
-  List<Location> recommendedLocations = [];
-  bool isLoading = true;
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadLocations();
-  }
-
-  Future<void> _loadLocations() async {
-    try {
-      final locations = await DataService.getLocationsByState(widget.state.id);
-      setState(() {
-        allLocations = locations;
-        filteredLocations = locations;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+  String _getStateName(String lang) {
+    switch (lang) {
+      case 'ar':
+        return state.translations['ar']?['name'] ??
+            state.translations['en']?['name'] ??
+            state.id;
+      case 'en':
+        return state.translations['en']?['name'] ?? state.id;
+      case 'fr':
+        return state.translations['fr']?['name'] ??
+            state.translations['en']?['name'] ??
+            state.id;
+      case 'ru':
+        return state.translations['ru']?['name'] ??
+            state.translations['en']?['name'] ??
+            state.id;
+      case 'de':
+        return state.translations['de']?['name'] ??
+            state.translations['en']?['name'] ??
+            state.id;
+      default:
+        return state.translations['en']?['name'] ?? state.id;
     }
   }
 
-  void _searchLocations(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        filteredLocations = allLocations;
-        recommendedLocations = [];
-      });
-      return;
+  String _getDescription(String lang) {
+    switch (lang) {
+      case 'ar':
+        return state.translations['ar']?['description'] ??
+            state.translations['en']?['description'] ??
+            'No description available';
+      case 'en':
+        return state.translations['en']?['description'] ??
+            'No description available';
+      case 'fr':
+        return state.translations['fr']?['description'] ??
+            state.translations['en']?['description'] ??
+            'No description available';
+      case 'ru':
+        return state.translations['ru']?['description'] ??
+            state.translations['en']?['description'] ??
+            'No description available';
+      case 'de':
+        return state.translations['de']?['description'] ??
+            state.translations['en']?['description'] ??
+            'No description available';
+      default:
+        return state.translations['en']?['description'] ??
+            'No description available';
     }
-
-    final similarLocations = SimilarityService.findSimilarLocations(
-      query,
-      allLocations,
-    );
-
-    setState(() {
-      recommendedLocations = similarLocations;
-      filteredLocations = similarLocations.isEmpty
-          ? allLocations
-              .where((loc) =>
-                  loc
-                      .getName(widget.selectedLanguage)
-                      .toLowerCase()
-                      .contains(query.toLowerCase()) ||
-                  loc
-                      .getDescription(widget.selectedLanguage)
-                      .toLowerCase()
-                      .contains(query.toLowerCase()) ||
-                  loc.keywords.any((keyword) =>
-                      keyword.toLowerCase().contains(query.toLowerCase())))
-              .toList()
-          : similarLocations;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final appBarBackgroundColor =
-        isDarkMode ? Colors.grey[850] : Colors.blue.shade700;
-    final appBarForegroundColor = isDarkMode ? Colors.white : Colors.white;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.state.getName(widget.selectedLanguage)),
-        backgroundColor: appBarBackgroundColor,
-        foregroundColor: appBarForegroundColor,
-        actions: [
-          DropdownButton<String>(
-            value: widget.selectedLanguage,
-            dropdownColor: appBarBackgroundColor,
-            style: TextStyle(color: appBarForegroundColor),
-            iconEnabledColor: appBarForegroundColor,
-            items: const {
-              'en': 'English',
-              'ar': 'العربية',
-              'fr': 'Français',
-              'ru': 'Русский',
-              'de': 'Deutsch',
-            }.entries.map((entry) {
-              return DropdownMenuItem<String>(
-                value: entry.key,
-                child: Text(entry.value),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                widget.updateLanguage(newValue);
-              }
-            },
-          ),
-        ],
+        title: Text(_getStateName(selectedLanguage)),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.state.imageUrl),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                state.imageUrl,
+                height: 200,
+                width: double.infinity,
                 fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0.3),
-              child: Center(
-                child: Text(
-                  widget.state.getName(widget.selectedLanguage),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                  child: const Center(
+                      child: Icon(Icons.image_not_supported, size: 50)),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _searchLocations,
-              decoration: InputDecoration(
-                hintText: widget.selectedLanguage == 'ar'
-                    ? 'ابحث عن أماكن الجذب (مثل: متاحف، طبيعة)'
-                    : widget.selectedLanguage == 'en'
-                        ? 'Search for attractions (e.g., museums, nature)'
-                        : widget.selectedLanguage == 'fr'
-                            ? 'Recherchez des attractions (ex. musées, nature)'
-                            : widget.selectedLanguage == 'ru'
-                                ? 'Поиск достопримечательностей (например, музеи, природа)'
-                                : 'Suchen Sie Attraktionen (z. B. Museen, Natur)',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+            const SizedBox(height: 16),
+            Text(
+              _getDescription(selectedLanguage),
+              style: TextStyle(
+                fontSize: 16,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
-          ),
-          if (recommendedLocations.isNotEmpty)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Text(
-                widget.selectedLanguage == 'ar'
-                    ? 'التوصيات بناءً على بحثك'
-                    : widget.selectedLanguage == 'en'
-                        ? 'Recommendations based on your search'
-                        : widget.selectedLanguage == 'fr'
-                            ? 'Recommandations basées sur votre recherche'
-                            : widget.selectedLanguage == 'ru'
-                                ? 'Рекомендации на основе вашего поиска'
-                                : 'Empfehlungen basierend auf Ihrer Suche',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Colors.white70 : Colors.black87,
-                ),
+            const SizedBox(height: 16),
+            Text(
+              selectedLanguage == 'ar'
+                  ? 'أماكن الجذب'
+                  : selectedLanguage == 'en'
+                      ? 'Attractions'
+                      : selectedLanguage == 'fr'
+                          ? 'Attractions'
+                          : selectedLanguage == 'ru'
+                              ? 'Достопримечательности'
+                              : 'Attraktionen',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
-          Expanded(
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : filteredLocations.isEmpty
-                    ? Center(
-                        child: Text(
-                          'لا توجد أماكن مطابقة لبحثك',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isDarkMode ? Colors.white70 : Colors.black87,
-                          ),
-                        ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        itemCount: filteredLocations.length,
-                        itemBuilder: (context, index) {
-                          final location = filteredLocations[index];
-                          return LocationCard(
-                            location: location,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LocationDetailScreen(
-                                    location: location,
-                                    selectedLanguage: widget.selectedLanguage,
-                                    updateLanguage: widget.updateLanguage,
-                                  ),
-                                ),
-                              );
-                            },
-                            selectedLanguage: widget.selectedLanguage,
-                            isDarkMode: isDarkMode, // Properly passed here
-                          );
-                        },
-                      ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            FutureBuilder<List<Location>>(
+              future: DataService.loadLocationsByState(state.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text(
+                    selectedLanguage == 'ar'
+                        ? 'خطأ في تحميل الأماكن: ${snapshot.error}'
+                        : selectedLanguage == 'en'
+                            ? 'Error loading attractions: ${snapshot.error}'
+                            : selectedLanguage == 'fr'
+                                ? 'Erreur de chargement des attractions: ${snapshot.error}'
+                                : selectedLanguage == 'ru'
+                                    ? 'Ошибка загрузки достопримечательностей: ${snapshot.error}'
+                                    : 'Fehler beim Laden der Attraktionen: ${snapshot.error}',
+                    style: TextStyle(
+                        color: isDarkMode ? Colors.red[300] : Colors.red),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Text(
+                    selectedLanguage == 'ar'
+                        ? 'لا يوجد أماكن جذب متاحة'
+                        : selectedLanguage == 'en'
+                            ? 'No attractions available'
+                            : selectedLanguage == 'fr'
+                                ? 'Aucune attraction disponible'
+                                : selectedLanguage == 'ru'
+                                    ? 'Нет доступных достопримечательностей'
+                                    : 'Keine Attraktionen verfügbar',
+                    style: TextStyle(
+                        color: isDarkMode ? Colors.white70 : Colors.black54),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final location = snapshot.data![index];
+                    return LocationCard(
+                      location: location,
+                      onTap: () {
+                        // Navigate to a detailed location page if needed
+                      },
+                      selectedLanguage: selectedLanguage,
+                      isDarkMode: isDarkMode,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 }
