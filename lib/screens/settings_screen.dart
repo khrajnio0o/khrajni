@@ -1,7 +1,7 @@
 // lib/screens/settings_screen.dart
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final String selectedLanguage;
   final Function(String) updateLanguage;
   final ThemeMode themeMode;
@@ -14,6 +14,19 @@ class SettingsScreen extends StatelessWidget {
     required this.themeMode,
     required this.toggleTheme,
   }) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  late String _currentLanguage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentLanguage = widget.selectedLanguage;
+  }
 
   String _getSettingsTitle(String lang) {
     switch (lang) {
@@ -105,14 +118,14 @@ class SettingsScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: Text(_getSettingsTitle(selectedLanguage)),
+        title: Text(_getSettingsTitle(_currentLanguage)),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: Text(_getLanguageTitle(selectedLanguage)),
+            title: Text(_getLanguageTitle(_currentLanguage)),
             trailing: DropdownButton<String>(
-              value: selectedLanguage,
+              value: _currentLanguage,
               items: const {
                 'en': 'English',
                 'ar': 'العربية',
@@ -127,31 +140,34 @@ class SettingsScreen extends StatelessWidget {
               }).toList(),
               onChanged: (String? newValue) {
                 if (newValue != null) {
-                  updateLanguage(newValue);
+                  setState(() {
+                    _currentLanguage = newValue;
+                  });
+                  widget.updateLanguage(newValue);
                 }
               },
             ),
           ),
           SwitchListTile(
-            title: Text(_getAppearanceTitle(selectedLanguage)),
-            value: themeMode == ThemeMode.dark,
-            onChanged: (_) => toggleTheme(),
-            secondary: Icon(themeMode == ThemeMode.dark
+            title: Text(_getAppearanceTitle(_currentLanguage)),
+            value: widget.themeMode == ThemeMode.dark,
+            onChanged: (_) => widget.toggleTheme(),
+            secondary: Icon(widget.themeMode == ThemeMode.dark
                 ? Icons.dark_mode
                 : Icons.light_mode),
           ),
           ListTile(
-            title: Text(_getHelpTitle(selectedLanguage)),
+            title: Text(_getHelpTitle(_currentLanguage)),
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text(_getHelpTitle(selectedLanguage)),
-                  content: Text(_getHelpContent(selectedLanguage)),
+                  title: Text(_getHelpTitle(_currentLanguage)),
+                  content: Text(_getHelpContent(_currentLanguage)),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text(selectedLanguage == 'ar' ? 'إغلاق' : 'Close'),
+                      child: Text(_currentLanguage == 'ar' ? 'إغلاق' : 'Close'),
                     ),
                   ],
                 ),

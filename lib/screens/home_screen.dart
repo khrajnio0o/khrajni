@@ -342,16 +342,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     const SizedBox(height: 8),
                                     SizedBox(
-                                      height: 200,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
+                                      height: 250,
+                                      child: PageView.builder(
                                         itemCount: filteredStates.length,
                                         itemBuilder: (context, index) {
-                                          final state =
-                                              filteredStates[index];
+                                          final state = filteredStates[index];
                                           return Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 16.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
                                             child: StateCard(
                                               state: state,
                                               onTap: () {
@@ -389,8 +387,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ? 'أماكن الجذب'
                                           : widget.selectedLanguage == 'en'
                                               ? 'Attractions'
-                                              : widget.selectedLanguage ==
-                                                      'fr'
+                                              : widget.selectedLanguage == 'fr'
                                                   ? 'Attractions'
                                                   : widget.selectedLanguage ==
                                                           'ru'
@@ -414,10 +411,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   StateDetailScreen(
-                                                state: states.firstWhere(
-                                                    (s) =>
-                                                        s.id ==
-                                                        location.stateId),
+                                                state: states.firstWhere((s) =>
+                                                    s.id == location.stateId),
                                                 selectedLanguage:
                                                     widget.selectedLanguage,
                                                 updateLanguage:
@@ -450,23 +445,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(_getAppTitle(widget.selectedLanguage)),
-        leading: IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SettingsScreen(
-                  selectedLanguage: widget.selectedLanguage,
-                  updateLanguage: widget.updateLanguage,
-                  themeMode: widget.themeMode,
-                  toggleTheme: widget.toggleTheme,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(
+                    selectedLanguage: widget.selectedLanguage,
+                    updateLanguage: widget.updateLanguage,
+                    themeMode: widget.themeMode,
+                    toggleTheme: widget.toggleTheme,
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
+        ],
       ),
       body: _selectedIndex == 0
           ? _buildHomeContent()
