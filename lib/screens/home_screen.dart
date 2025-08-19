@@ -1,4 +1,3 @@
-// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:khrajni/models/location.dart';
@@ -8,6 +7,7 @@ import 'package:khrajni/screens/favorites_screen.dart';
 import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/screens/settings_screen.dart';
 import 'package:khrajni/screens/state_detail_screen.dart';
+import 'package:khrajni/screens/your_plan_screen.dart';
 import 'package:khrajni/services/data_service.dart';
 import 'package:khrajni/widgets/state_card.dart';
 import 'package:khrajni/widgets/location_card.dart';
@@ -90,14 +90,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         allLocations = allLocs;
         filteredStates = loadedStates;
         filteredLocations = allLocs;
-        // Set default state to Cairo or first available state
         currentStateId = states.isNotEmpty
             ? states
                 .firstWhere((state) => state.id == 'cairo',
                     orElse: () => states.first)
                 .id
             : null;
-        // Set popular locations (e.g., top 5 by some criteria or random)
         popularLocations = allLocs.take(5).toList();
         isLoading = false;
       });
@@ -158,7 +156,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
       return;
     }
-    // TODO: Implement actual state determination based on coordinates
     setState(() {
       currentStateId = states
           .firstWhere((state) => state.id == 'cairo',
@@ -267,19 +264,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         return 'Plan';
       default:
         return 'Plan';
-    }
-  }
-
-  String _getSectionTitle(int index, String lang) {
-    switch (index) {
-      case 1:
-        return _getCategoriesLabel(lang);
-      case 2:
-        return _getFavoritesLabel(lang);
-      case 3:
-        return _getPlanLabel(lang);
-      default:
-        return '';
     }
   }
 
@@ -797,15 +781,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       updateLanguage: widget.updateLanguage,
                       allLocations: allLocations,
                     )
-                  : Center(
-                      child: Text(
-                        _getSectionTitle(
-                            _selectedIndex, widget.selectedLanguage),
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: isDarkMode ? Colors.white70 : Colors.black87,
-                        ),
-                      ),
+                  : YourPlanScreen(
+                      selectedLanguage: widget.selectedLanguage,
+                      updateLanguage: widget.updateLanguage,
+                      themeMode: widget.themeMode,
+                      toggleTheme: widget.toggleTheme,
+                      allLocations: allLocations,
                     ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
