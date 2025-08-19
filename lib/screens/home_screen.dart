@@ -1,8 +1,9 @@
-// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
+import 'package:khrajni/screens/favorites_screen.dart';
+import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/screens/settings_screen.dart';
 import 'package:khrajni/screens/state_detail_screen.dart';
 import 'package:khrajni/services/data_service.dart';
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<StateModel> filteredStates = [];
   List<Location> filteredLocations = [];
   List<Location> nearbyLocations = [];
+  List<Location> popularLocations = [];
   int _selectedIndex = 0;
   Position? _currentPosition;
   bool _locationPermissionGranted = false;
@@ -86,6 +88,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         allLocations = allLocs;
         filteredStates = loadedStates;
         filteredLocations = allLocs;
+        // Set default state to Cairo or first available state
+        currentStateId = states.isNotEmpty
+            ? states
+                .firstWhere((state) => state.id == 'cairo',
+                    orElse: () => states.first)
+                .id
+            : null;
+        // Set popular locations (e.g., top 5 by some criteria or random)
+        popularLocations = allLocs.take(5).toList();
         isLoading = false;
       });
       _fadeController.forward();
@@ -136,118 +147,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _determineCurrentState() {
     if (_currentPosition == null || states.isEmpty) {
       setState(() {
-        currentStateId = states.isNotEmpty ? states.first.id : null;
+        currentStateId = states.isNotEmpty
+            ? states
+                .firstWhere((state) => state.id == 'cairo',
+                    orElse: () => states.first)
+                .id
+            : null;
       });
       return;
     }
-    final double userLat = _currentPosition!.latitude;
-    final double userLon = _currentPosition!.longitude;
-    StateModel? nearestState = states.firstWhere(
-      (state) {
-        final String? coords = state.imageUrl.split('/@').length > 1
-            ? state.imageUrl.split('/@')[1].split('/')[0]
-            : null;
-        if (coords == null) return false;
-        final List<String> latLon = coords.split(',');
-        final double stateLat = double.tryParse(latLon[0]) ?? 0.0;
-        final double stateLon = double.tryParse(latLon[1]) ?? 0.0;
-        final double distance =
-            Geolocator.distanceBetween(userLat, userLon, stateLat, stateLon);
-        return distance <= 50000; // 50 km radius
-      },
-      orElse: () => states.first, // Default to first state if no match
-    );
+    // TODO: Implement actual state determination based on coordinates
     setState(() {
-      currentStateId = nearestState.id;
+      currentStateId = states
+          .firstWhere((state) => state.id == 'cairo',
+              orElse: () => states.first)
+          .id;
     });
   }
 
   void _filterNearbyLocations() {
-    if (_currentPosition == null || currentStateId == null) return;
-    final double userLat = _currentPosition!.latitude;
-    final double userLon = _currentPosition!.longitude;
+    if (_currentPosition == null || allLocations.isEmpty) return;
     setState(() {
-      nearbyLocations = allLocations.where((location) {
-        final String? coords = location.mapUrl.split('/@').length > 1
-            ? location.mapUrl.split('/@')[1].split('/')[0]
-            : null;
-        if (coords == null) return false;
-        final List<String> latLon = coords.split(',');
-        final double locLat = double.tryParse(latLon[0]) ?? 0.0;
-        final double locLon = double.tryParse(latLon[1]) ?? 0.0;
-        final double distance =
-            Geolocator.distanceBetween(userLat, userLon, locLat, locLon);
-        return distance <= 50000 &&
-            location.stateId == currentStateId; // Same governorate
-      }).toList();
-      filteredLocations = allLocations
-          .where((location) => !nearbyLocations.contains(location))
-          .toList();
-      filteredStates =
-          states.where((state) => state.id == currentStateId).toList();
+      nearbyLocations = allLocations.take(5).toList();
     });
-  }
-
-  void _searchData(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        if (_locationPermissionGranted && _currentPosition != null) {
-          _filterNearbyLocations();
-        } else {
-          filteredStates = states;
-          filteredLocations = allLocations;
-          nearbyLocations = [];
-        }
-      });
-      return;
-    }
-
-    setState(() {
-      filteredStates = states
-          .where((state) =>
-              state
-                  .getName(widget.selectedLanguage)
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              state
-                  .getDescription(widget.selectedLanguage)
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))
-          .toList();
-
-      filteredLocations = allLocations
-          .where((location) =>
-              location
-                  .getName(widget.selectedLanguage)
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              location
-                  .getDescription(widget.selectedLanguage)
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              location.keywords.any((keyword) =>
-                  keyword.toLowerCase().contains(query.toLowerCase())))
-          .toList();
-      nearbyLocations = []; // Clear nearby on search
-    });
-  }
-
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          widget.selectedLanguage == 'ar'
-              ? 'خطأ: $message'
-              : widget.selectedLanguage == 'en'
-                  ? 'Error: $message'
-                  : widget.selectedLanguage == 'fr'
-                      ? 'Erreur : $message'
-                      : widget.selectedLanguage == 'ru'
-                          ? 'Ошибка: $message'
-                          : 'Fehler: $message',
-        ),
-      ),
-    );
   }
 
   void _onItemTapped(int index) {
@@ -256,8 +178,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  void _showError(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   String _getAppTitle() {
-    return 'KHRAJNI';
+    switch (widget.selectedLanguage) {
+      case 'ar':
+        return 'خرجني';
+      case 'en':
+        return 'Khrajni';
+      case 'fr':
+        return 'Khrajni';
+      case 'ru':
+        return 'Khrajni';
+      case 'de':
+        return 'Khrajni';
+      default:
+        return 'Khrajni';
+    }
   }
 
   String _getHomeLabel(String lang) {
@@ -314,52 +254,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String _getPlanLabel(String lang) {
     switch (lang) {
       case 'ar':
-        return 'خطتك';
+        return 'الخطة';
       case 'en':
-        return 'Your Plan';
+        return 'Plan';
       case 'fr':
-        return 'Votre Plan';
+        return 'Plan';
       case 'ru':
-        return 'Ваш План';
+        return 'План';
       case 'de':
-        return 'Ihr Plan';
+        return 'Plan';
       default:
-        return 'Your Plan';
+        return 'Plan';
     }
   }
 
   String _getSectionTitle(int index, String lang) {
     switch (index) {
       case 1:
-        return lang == 'ar'
-            ? 'الفئات قيد التطوير'
-            : lang == 'en'
-                ? 'Categories under development'
-                : lang == 'fr'
-                    ? 'Catégories en développement'
-                    : lang == 'ru'
-                        ? 'Категории в разработке'
-                        : 'Kategorien in Entwicklung';
+        return _getCategoriesLabel(lang);
       case 2:
-        return lang == 'ar'
-            ? 'المفضلة قيد التطوير'
-            : lang == 'en'
-                ? 'Favorites under development'
-                : lang == 'fr'
-                    ? 'Favoris en développement'
-                    : lang == 'ru'
-                        ? 'Избранное в разработке'
-                        : 'Favoriten in Entwicklung';
+        return _getFavoritesLabel(lang);
       case 3:
-        return lang == 'ar'
-            ? 'خطتك قيد التطوير'
-            : lang == 'en'
-                ? 'Your Plan under development'
-                : lang == 'fr'
-                    ? 'Votre Plan en développement'
-                    : lang == 'ru'
-                        ? 'Ваш План в разработке'
-                        : 'Ihr Plan in Entwicklung';
+        return _getPlanLabel(lang);
       default:
         return '';
     }
@@ -367,263 +283,473 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildHomeContent() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _searchData,
-              decoration: InputDecoration(
-                hintText: widget.selectedLanguage == 'ar'
-                    ? 'ابحث عن وجهة (مثل القاهرة، الهرم)'
-                    : widget.selectedLanguage == 'en'
-                        ? 'Search for a destination (e.g. Cairo, Pyramids)'
-                        : widget.selectedLanguage == 'fr'
-                            ? 'Rechercher une destination (ex. Le Caire, Pyramides)'
-                            : widget.selectedLanguage == 'ru'
-                                ? 'Поиск места (например, Каир, Пирамиды)'
-                                : 'Suche nach einem Ziel (z.B. Kairo, Pyramiden)',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-              ),
-            ),
-          ),
-          Expanded(
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : SlideTransition(
-                    position: _slideAnimation,
-                    child: FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (filteredStates.isNotEmpty)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget.selectedLanguage == 'ar'
-                                          ? 'المحافظات'
-                                          : widget.selectedLanguage == 'en'
-                                              ? 'States'
-                                              : widget.selectedLanguage == 'fr'
-                                                  ? 'États'
-                                                  : widget.selectedLanguage ==
-                                                          'ru'
-                                                      ? 'Штаты'
-                                                      : 'Staaten',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: isDarkMode
-                                            ? Colors.white70
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    SizedBox(
-                                      height: 250,
-                                      child: PageView.builder(
-                                        itemCount: filteredStates.length,
-                                        itemBuilder: (context, index) {
-                                          final state = filteredStates[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: StateCard(
-                                              state: state,
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        StateDetailScreen(
-                                                      state: state,
-                                                      selectedLanguage: widget
-                                                          .selectedLanguage,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              selectedLanguage:
-                                                  widget.selectedLanguage,
-                                              isDarkMode: isDarkMode,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              if (_locationPermissionGranted &&
-                                  nearbyLocations.isNotEmpty)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      widget.selectedLanguage == 'ar'
-                                          ? 'أماكن قريبة'
-                                          : widget.selectedLanguage == 'en'
-                                              ? 'Nearby Attractions'
-                                              : widget.selectedLanguage == 'fr'
-                                                  ? 'Attractions à proximité'
-                                                  : widget.selectedLanguage ==
-                                                          'ru'
-                                                      ? 'Близкие достопримечательности'
-                                                      : 'Nahegelegene Attraktionen',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: isDarkMode
-                                            ? Colors.white70
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    ...nearbyLocations.map((location) {
-                                      return LocationCard(
-                                        location: location,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  StateDetailScreen(
-                                                state: states.firstWhere((s) =>
-                                                    s.id == location.stateId),
-                                                selectedLanguage:
-                                                    widget.selectedLanguage,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        selectedLanguage:
-                                            widget.selectedLanguage,
-                                        isDarkMode: isDarkMode,
-                                      );
-                                    }).toList(),
-                                  ],
-                                ),
-                              if (_locationPermissionGranted &&
-                                  filteredLocations.isNotEmpty)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      widget.selectedLanguage == 'ar'
-                                          ? 'أماكن جذب أخرى'
-                                          : widget.selectedLanguage == 'en'
-                                              ? 'Other Attractions'
-                                              : widget.selectedLanguage == 'fr'
-                                                  ? 'Autres attractions'
-                                                  : widget.selectedLanguage ==
-                                                          'ru'
-                                                      ? 'Другие достопримечательности'
-                                                      : 'Andere Attraktionen',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: isDarkMode
-                                            ? Colors.white70
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    ...filteredLocations.map((location) {
-                                      return LocationCard(
-                                        location: location,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  StateDetailScreen(
-                                                state: states.firstWhere((s) =>
-                                                    s.id == location.stateId),
-                                                selectedLanguage:
-                                                    widget.selectedLanguage,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        selectedLanguage:
-                                            widget.selectedLanguage,
-                                        isDarkMode: isDarkMode,
-                                      );
-                                    }).toList(),
-                                  ],
-                                ),
-                              if (!_locationPermissionGranted ||
-                                  (nearbyLocations.isEmpty &&
-                                      filteredLocations.isEmpty))
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      widget.selectedLanguage == 'ar'
-                                          ? 'أماكن الجذب'
-                                          : widget.selectedLanguage == 'en'
-                                              ? 'Attractions'
-                                              : widget.selectedLanguage == 'fr'
-                                                  ? 'Attractions'
-                                                  : widget.selectedLanguage ==
-                                                          'ru'
-                                                      ? 'Достопримечательности'
-                                                      : 'Attraktionen',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: isDarkMode
-                                            ? Colors.white70
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    ...allLocations.map((location) {
-                                      return LocationCard(
-                                        location: location,
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  StateDetailScreen(
-                                                state: states.firstWhere((s) =>
-                                                    s.id == location.stateId),
-                                                selectedLanguage:
-                                                    widget.selectedLanguage,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        selectedLanguage:
-                                            widget.selectedLanguage,
-                                        isDarkMode: isDarkMode,
-                                      );
-                                    }).toList(),
-                                  ],
-                                ),
-                            ],
-                          ),
-                        ),
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return RefreshIndicator(
+      onRefresh: _loadData,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        filteredStates = states
+                            .where((state) => state
+                                .getName(widget.selectedLanguage)
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
+                            .toList();
+                        filteredLocations = allLocations
+                            .where((location) => location
+                                .getName(widget.selectedLanguage)
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
+                            .toList();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: widget.selectedLanguage == 'ar'
+                          ? 'ابحث عن مكان أو محافظة'
+                          : widget.selectedLanguage == 'en'
+                              ? 'Search for a place or state'
+                              : widget.selectedLanguage == 'fr'
+                                  ? 'Rechercher un lieu ou un état'
+                                  : widget.selectedLanguage == 'ru'
+                                      ? 'Поиск места или штата'
+                                      : 'Suche nach einem Ort oder Staat',
+                      suffixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
                   ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              if (_searchController.text.isNotEmpty) _buildSearchResults(),
+              if (_searchController.text.isEmpty) _buildDefaultContent(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchResults() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (filteredStates.isNotEmpty) ...[
+          Text(
+            widget.selectedLanguage == 'ar'
+                ? 'المحافظات'
+                : widget.selectedLanguage == 'en'
+                    ? 'States'
+                    : widget.selectedLanguage == 'fr'
+                        ? 'États'
+                        : widget.selectedLanguage == 'ru'
+                            ? 'Штаты'
+                            : 'Staaten',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode ? Colors.white70 : Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 220,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: filteredStates.length,
+              itemBuilder: (context, index) {
+                final state = filteredStates[index];
+                return StateCard(
+                  state: state,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StateDetailScreen(
+                          state: state,
+                          selectedLanguage: widget.selectedLanguage,
+                          updateLanguage: widget.updateLanguage,
+                        ),
+                      ),
+                    );
+                  },
+                  selectedLanguage: widget.selectedLanguage,
+                  isDarkMode: isDarkMode,
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 24),
+        ],
+        if (filteredLocations.isNotEmpty) ...[
+          Text(
+            widget.selectedLanguage == 'ar'
+                ? 'الأماكن'
+                : widget.selectedLanguage == 'en'
+                    ? 'Locations'
+                    : widget.selectedLanguage == 'fr'
+                        ? 'Emplacements'
+                        : widget.selectedLanguage == 'ru'
+                            ? 'Места'
+                            : 'Orte',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode ? Colors.white70 : Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: filteredLocations.length,
+            itemBuilder: (context, index) {
+              final location = filteredLocations[index];
+              return LocationCard(
+                location: location,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LocationDetailScreen(
+                        location: location,
+                        selectedLanguage: widget.selectedLanguage,
+                        updateLanguage: widget.updateLanguage,
+                      ),
+                    ),
+                  );
+                },
+                selectedLanguage: widget.selectedLanguage,
+                isDarkMode: isDarkMode,
+              );
+            },
           ),
         ],
-      ),
+        if (filteredStates.isEmpty && filteredLocations.isEmpty)
+          Center(
+            child: Text(
+              widget.selectedLanguage == 'ar'
+                  ? 'لا توجد نتائج'
+                  : widget.selectedLanguage == 'en'
+                      ? 'No results found'
+                      : widget.selectedLanguage == 'fr'
+                          ? 'Aucun résultat trouvé'
+                          : widget.selectedLanguage == 'ru'
+                              ? 'Результаты не найдены'
+                              : 'Keine Ergebnisse gefunden',
+              style: TextStyle(
+                fontSize: 16,
+                color: isDarkMode ? Colors.white70 : Colors.black54,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildDefaultContent() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (!_locationPermissionGranted) ...[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Card(
+              color: isDarkMode ? Colors.grey[800] : Colors.blue[50],
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.location_off,
+                      color: isDarkMode ? Colors.white70 : Colors.blue[700],
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.selectedLanguage == 'ar'
+                            ? 'تمكين الموقع لعرض الأماكن القريبة'
+                            : widget.selectedLanguage == 'en'
+                                ? 'Enable location to see nearby places'
+                                : widget.selectedLanguage == 'fr'
+                                    ? 'Activez la localisation pour voir les lieux à proximité'
+                                    : widget.selectedLanguage == 'ru'
+                                        ? 'Включите геолокацию, чтобы видеть ближайшие места'
+                                        : 'Aktivieren Sie den Standort, um nahegelegene Orte zu sehen',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDarkMode ? Colors.white70 : Colors.black87,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: _requestLocationPermission,
+                      child: Text(
+                        widget.selectedLanguage == 'ar'
+                            ? 'تمكين'
+                            : widget.selectedLanguage == 'en'
+                                ? 'Enable'
+                                : widget.selectedLanguage == 'fr'
+                                    ? 'Activer'
+                                    : widget.selectedLanguage == 'ru'
+                                        ? 'Включить'
+                                        : 'Aktivieren',
+                        style: TextStyle(
+                          color:
+                              isDarkMode ? Colors.blue[300] : Colors.blue[700],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+        if (currentStateId != null) _buildCurrentStateSection(isDarkMode),
+        const SizedBox(height: 24),
+        if (_locationPermissionGranted && nearbyLocations.isNotEmpty)
+          _buildNearbySection(isDarkMode)
+        else
+          _buildPopularSection(isDarkMode),
+        const SizedBox(height: 24),
+        Text(
+          widget.selectedLanguage == 'ar'
+              ? 'اكتشف المحافظات'
+              : widget.selectedLanguage == 'en'
+                  ? 'Discover States'
+                  : widget.selectedLanguage == 'fr'
+                      ? 'Découvrir les États'
+                      : widget.selectedLanguage == 'ru'
+                          ? 'Откройте штаты'
+                          : 'Entdecken Sie Staaten',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 220,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: states.length,
+            itemBuilder: (context, index) {
+              final state = states[index];
+              return StateCard(
+                state: state,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StateDetailScreen(
+                        state: state,
+                        selectedLanguage: widget.selectedLanguage,
+                        updateLanguage: widget.updateLanguage,
+                      ),
+                    ),
+                  );
+                },
+                selectedLanguage: widget.selectedLanguage,
+                isDarkMode: isDarkMode,
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCurrentStateSection(bool isDarkMode) {
+    final currentState = states.firstWhere((s) => s.id == currentStateId);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.selectedLanguage == 'ar'
+              ? 'محافظتك الحالية'
+              : widget.selectedLanguage == 'en'
+                  ? 'Your Current State'
+                  : widget.selectedLanguage == 'fr'
+                      ? 'Votre État Actuel'
+                      : widget.selectedLanguage == 'ru'
+                          ? 'Ваш текущий штат'
+                          : 'Ihr Aktueller Staat',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StateDetailScreen(
+                  state: currentState,
+                  selectedLanguage: widget.selectedLanguage,
+                  updateLanguage: widget.updateLanguage,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: AssetImage(currentState.imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius:
+                      const BorderRadius.vertical(bottom: Radius.circular(20)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                  ),
+                ),
+                child: Text(
+                  currentState.getName(widget.selectedLanguage),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNearbySection(bool isDarkMode) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.selectedLanguage == 'ar'
+              ? 'أماكن قريبة'
+              : widget.selectedLanguage == 'en'
+                  ? 'Nearby Places'
+                  : widget.selectedLanguage == 'fr'
+                      ? 'Lieux à Proximité'
+                      : widget.selectedLanguage == 'ru'
+                          ? 'Ближайшие места'
+                          : 'Nahegelegene Orte',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: nearbyLocations.length,
+          itemBuilder: (context, index) {
+            final location = nearbyLocations[index];
+            return LocationCard(
+              location: location,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LocationDetailScreen(
+                      location: location,
+                      selectedLanguage: widget.selectedLanguage,
+                      updateLanguage: widget.updateLanguage,
+                    ),
+                  ),
+                );
+              },
+              selectedLanguage: widget.selectedLanguage,
+              isDarkMode: isDarkMode,
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopularSection(bool isDarkMode) {
+    if (popularLocations.isEmpty) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.selectedLanguage == 'ar'
+              ? 'أماكن شهيرة'
+              : widget.selectedLanguage == 'en'
+                  ? 'Popular Attractions'
+                  : widget.selectedLanguage == 'fr'
+                      ? 'Attractions Populaires'
+                      : widget.selectedLanguage == 'ru'
+                          ? 'Популярные достопримечательности'
+                          : 'Beliebte Attraktionen',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: popularLocations.length,
+          itemBuilder: (context, index) {
+            final location = popularLocations[index];
+            return LocationCard(
+              location: location,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LocationDetailScreen(
+                      location: location,
+                      selectedLanguage: widget.selectedLanguage,
+                      updateLanguage: widget.updateLanguage,
+                    ),
+                  ),
+                );
+              },
+              selectedLanguage: widget.selectedLanguage,
+              isDarkMode: isDarkMode,
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -657,15 +783,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
       body: _selectedIndex == 0
           ? _buildHomeContent()
-          : Center(
-              child: Text(
-                _getSectionTitle(_selectedIndex, widget.selectedLanguage),
-                style: TextStyle(
-                  fontSize: 20,
-                  color: isDarkMode ? Colors.white70 : Colors.black87,
+          : _selectedIndex == 2
+              ? FavoritesScreen(
+                  selectedLanguage: widget.selectedLanguage,
+                  updateLanguage: widget.updateLanguage,
+                  allLocations: allLocations,
+                )
+              : Center(
+                  child: Text(
+                    _getSectionTitle(_selectedIndex, widget.selectedLanguage),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: isDarkMode ? Colors.white70 : Colors.black87,
+                    ),
+                  ),
                 ),
-              ),
-            ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

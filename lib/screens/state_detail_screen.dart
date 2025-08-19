@@ -2,17 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
+import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/services/data_service.dart';
 import 'package:khrajni/widgets/location_card.dart';
 
 class StateDetailScreen extends StatelessWidget {
   final StateModel state;
   final String selectedLanguage;
+  final Function(String) updateLanguage;
 
   const StateDetailScreen({
     Key? key,
     required this.state,
     required this.selectedLanguage,
+    required this.updateLanguage,
   }) : super(key: key);
 
   String _getStateName(String lang) {
@@ -164,7 +167,16 @@ class StateDetailScreen extends StatelessWidget {
                     return LocationCard(
                       location: location,
                       onTap: () {
-                        // Navigate to a detailed location page if needed
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LocationDetailScreen(
+                              location: location,
+                              selectedLanguage: selectedLanguage,
+                              updateLanguage: updateLanguage,
+                            ),
+                          ),
+                        );
                       },
                       selectedLanguage: selectedLanguage,
                       isDarkMode: isDarkMode,

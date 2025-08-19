@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khrajni/models/location.dart';
+import 'package:khrajni/services/favorites_service.dart';
 
 class LocationCard extends StatefulWidget {
   final Location location;
@@ -25,6 +26,7 @@ class _LocationCardState extends State<LocationCard>
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
   bool _isPressed = false;
+  bool _isFavorite = false;
 
   @override
   void initState() {
@@ -47,10 +49,25 @@ class _LocationCardState extends State<LocationCard>
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
-    // Trigger rebuild when language changes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {});
+    _checkFavoriteStatus();
+  }
+
+  void _checkFavoriteStatus() async {
+    final isFavorite = await FavoritesService.isFavorite(widget.location.id);
+    setState(() {
+      _isFavorite = isFavorite;
     });
+  }
+
+  void _toggleFavorite() async {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    if (_isFavorite) {
+      await FavoritesService.addFavorite(widget.location.id);
+    } else {
+      await FavoritesService.removeFavorite(widget.location.id);
+    }
   }
 
   @override
@@ -136,67 +153,12 @@ class _LocationCardState extends State<LocationCard>
                               width: 90,
                               height: 90,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(
-                                        widget.isDarkMode ? 0.3 : 0.1),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                      widget.location.imageUrl,
-                                      width: 90,
-                                      height: 90,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: widget.isDarkMode
-                                                  ? [
-                                                      Colors.blueGrey[700]!,
-                                                      Colors.blueGrey[900]!
-                                                    ]
-                                                  : [
-                                                      Colors.blue[300]!,
-                                                      Colors.blue[600]!
-                                                    ],
-                                            ),
-                                          ),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.place,
-                                              color: Colors.white,
-                                              size: 32,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Colors.transparent,
-                                            Colors.black.withOpacity(
-                                                widget.isDarkMode ? 0.4 : 0.2),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                borderRadius: BorderRadius.circular(12.0),
+                                image: DecorationImage(
+                                  image: AssetImage(widget.location.imageUrl),
+                                  fit: BoxFit.cover,
+                                  onError: (exception, stackTrace) =>
+                                      const Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -206,16 +168,35 @@ class _LocationCardState extends State<LocationCard>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.location
-                                      .getName(widget.selectedLanguage),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        widget.location
+                                            .getName(widget.selectedLanguage),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: textColor,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        _isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: _isFavorite
+                                            ? Colors.red
+                                            : textColor,
+                                      ),
+                                      onPressed: _toggleFavorite,
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
