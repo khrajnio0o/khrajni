@@ -1,7 +1,9 @@
+// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
+import 'package:khrajni/screens/categories_screen.dart';
 import 'package:khrajni/screens/favorites_screen.dart';
 import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/screens/settings_screen.dart';
@@ -783,21 +785,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
       body: _selectedIndex == 0
           ? _buildHomeContent()
-          : _selectedIndex == 2
-              ? FavoritesScreen(
+          : _selectedIndex == 1
+              ? CategoriesScreen(
                   selectedLanguage: widget.selectedLanguage,
                   updateLanguage: widget.updateLanguage,
                   allLocations: allLocations,
                 )
-              : Center(
-                  child: Text(
-                    _getSectionTitle(_selectedIndex, widget.selectedLanguage),
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: isDarkMode ? Colors.white70 : Colors.black87,
+              : _selectedIndex == 2
+                  ? FavoritesScreen(
+                      selectedLanguage: widget.selectedLanguage,
+                      updateLanguage: widget.updateLanguage,
+                      allLocations: allLocations,
+                    )
+                  : Center(
+                      child: Text(
+                        _getSectionTitle(
+                            _selectedIndex, widget.selectedLanguage),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: isDarkMode ? Colors.white70 : Colors.black87,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
