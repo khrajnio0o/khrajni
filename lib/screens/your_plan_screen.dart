@@ -8,15 +8,21 @@ class PlanItem {
   final Location location;
   final double duration; // in hours
   final String time; // e.g., "Friday, 10:00 AM"
+  final String day; // e.g., "Friday"
 
-  PlanItem(
-      {required this.location, required this.duration, required this.time});
+  PlanItem({
+    required this.location,
+    required this.duration,
+    required this.time,
+    required this.day,
+  });
 
   Map<String, dynamic> toJson() {
     return {
       'id': location.id,
       'duration': duration,
       'time': time,
+      'day': day,
     };
   }
 
@@ -30,6 +36,7 @@ class PlanItem {
       location: location,
       duration: (json['duration'] as num).toDouble(),
       time: json['time'],
+      day: json['day'],
     );
   }
 }
@@ -249,23 +256,6 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
     }
   }
 
-  String _getModifyButtonText() {
-    switch (widget.selectedLanguage) {
-      case 'ar':
-        return 'تعديل';
-      case 'en':
-        return 'Modify';
-      case 'fr':
-        return 'Modifier';
-      case 'ru':
-        return 'Изменить';
-      case 'de':
-        return 'Ändern';
-      default:
-        return 'Modify';
-    }
-  }
-
   void _removePlanItem(PlanItem item) {
     setState(() {
       selectedPlanItems.remove(item);
@@ -286,20 +276,22 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
     );
   }
 
-  void _onModifyPressed() {
-    debugPrint('Modify button pressed at ${DateTime.now()}');
-  }
-
   double _calculateTotalDuration() {
     return selectedPlanItems.fold(0.0, (sum, item) => sum + item.duration);
+  }
+
+  double _extractPrice(String priceStr) {
+    // Extract first number from strings like "General: 240 EGP, Students: 120 EGP"
+    final regex = RegExp(r'\d+');
+    final match = regex.firstMatch(priceStr);
+    return double.tryParse(match?.group(0) ?? '0') ?? 0.0;
   }
 
   double _calculateTotalCost() {
     return selectedPlanItems.fold(0.0, (sum, item) {
       final priceStr =
-          item.location.pricesTranslations[widget.selectedLanguage] ?? '\$0';
-      final price = double.tryParse(priceStr.replaceAll('\$', '')) ?? 0.0;
-      return sum + price;
+          item.location.pricesTranslations[widget.selectedLanguage] ?? '0 EGP';
+      return sum + _extractPrice(priceStr);
     });
   }
 
@@ -311,7 +303,6 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
     final textColor =
         Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black87;
     final chipColor = isDarkMode ? Colors.grey[700]! : Colors.grey[300]!;
-    final buttonColor = Theme.of(context).primaryColor;
     final fillColor = isDarkMode ? Colors.grey[800]! : Colors.grey[200]!;
 
     return Scaffold(
@@ -416,6 +407,7 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
                               builder: (context) => LocationSelectionScreen(
                                 allLocations: widget.allLocations,
                                 selectedLanguage: widget.selectedLanguage,
+                                selectedPlanItems: selectedPlanItems,
                               ),
                             ),
                           );
@@ -424,8 +416,8 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
                             final newItem = PlanItem(
                               location: result['location'],
                               duration: result['duration'],
-                              time:
-                                  'Friday, ${10 + selectedPlanItems.length}:00 AM',
+                              time: result['time'],
+                              day: result['day'],
                             );
                             if (selectedPlanItems.any((item) =>
                                 item.location.id == newItem.location.id)) {
@@ -498,6 +490,7 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
                       ...selectedPlanItems.map((item) => Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: _buildScheduleItem(
+                              day: item.day,
                               time: item.time,
                               location: item.location
                                   .getName(widget.selectedLanguage),
@@ -586,35 +579,11 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
                       _getDurationLabel(), '${_calculateTotalDuration()} h'),
                   const SizedBox(height: 8),
                   _buildSummaryRow(_getCostLabel(),
-                      '\$${_calculateTotalCost().toStringAsFixed(0)}'),
-                  const SizedBox(height: 8),
-                  _buildNotesField(),
+                      '${_calculateTotalCost().toStringAsFixed(0)} EGP'),
                 ],
               ),
-              const SizedBox(height: 24),
-              // Action Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _onModifyPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    _getModifyButtonText(),
-                    style: const TextStyle(
-                      fontFamily: 'Tajawal',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 8),
+              _buildNotesField(),
             ],
           ),
         ),
@@ -623,6 +592,7 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
   }
 
   Widget _buildScheduleItem({
+    required String day,
     required String time,
     required String location,
     required String duration,
@@ -643,7 +613,7 @@ class _YourPlanScreenState extends State<YourPlanScreen> {
           Expanded(
             flex: 2,
             child: Text(
-              time,
+              '$day, $time',
               style: TextStyle(
                 fontFamily: 'Tajawal',
                 fontSize: 14,
