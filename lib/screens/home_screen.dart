@@ -665,7 +665,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
           ),
         ],
-        backgroundColor: isDarkMode ? Colors.grey[900] : null,
+        backgroundColor:
+            isDarkMode ? Theme.of(context).scaffoldBackgroundColor : null,
         elevation: isDarkMode ? 0 : 4,
       ),
       body: _selectedIndex == 0
@@ -697,7 +698,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           toggleTheme: widget.toggleTheme,
                         ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+        backgroundColor: isDarkMode
+            ? Theme.of(context).scaffoldBackgroundColor
+            : Colors.white,
         elevation: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(

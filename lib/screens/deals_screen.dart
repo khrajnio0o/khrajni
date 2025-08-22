@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khrajni/screens/placeholder_screen.dart';
 
 class DealsScreen extends StatelessWidget {
   final String selectedLanguage;
@@ -155,6 +156,8 @@ class DealsScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth - 32; // Full width minus padding
+    final gridCardWidth = (screenWidth - 48) / 2; // Two columns with 16px gap
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -162,56 +165,72 @@ class DealsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Top Deals Card
-          Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Container(
-              height: screenHeight * 0.25, // Dynamic height: 25% of screen
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/deals/beach.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.6),
-                      Colors.transparent,
-                    ],
+          InkWell(
+            onTap: () {
+              print('Tapped Top Deals');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlaceholderScreen(
+                    title: 'Top Deals',
+                    selectedLanguage: selectedLanguage,
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _getTopDealsTitle(selectedLanguage),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.06, // Dynamic font size
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: 'Tajawal',
+              );
+            },
+            borderRadius: BorderRadius.circular(16),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Container(
+                width: cardWidth,
+                height: screenHeight * 0.25, // Dynamic height: 25% of screen
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/deals/beach.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.6),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _getTopDealsTitle(selectedLanguage),
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.06,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getViewAll(selectedLanguage),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.04,
-                          color: Colors.white70,
-                          fontFamily: 'Tajawal',
+                        Text(
+                          _getViewAll(selectedLanguage),
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.04,
+                            color: Colors.white70,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -219,56 +238,72 @@ class DealsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Hotels Card
-          Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Container(
-              height: screenHeight * 0.25, // Dynamic height: 25% of screen
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/deals/hotel_room.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.6),
-                      Colors.transparent,
-                    ],
+          InkWell(
+            onTap: () {
+              print('Tapped Hotels');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlaceholderScreen(
+                    title: 'Hotels',
+                    selectedLanguage: selectedLanguage,
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _getHotelsTitle(selectedLanguage),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.05,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: 'Tajawal',
+              );
+            },
+            borderRadius: BorderRadius.circular(16),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Container(
+                width: cardWidth,
+                height: screenHeight * 0.25, // Dynamic height: 25% of screen
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/deals/hotel_room.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.6),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _getHotelsTitle(selectedLanguage),
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.05,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getBookNow(selectedLanguage),
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.035,
-                          color: Colors.white70,
-                          fontFamily: 'Tajawal',
+                        Text(
+                          _getBookNow(selectedLanguage),
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.035,
+                            color: Colors.white70,
+                            fontFamily: 'Tajawal',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -279,58 +314,74 @@ class DealsScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Container(
-                    height:
-                        screenHeight * 0.15, // Dynamic height: 15% of screen
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: const DecorationImage(
-                        image: AssetImage(
-                            'assets/images/deals/traveler_backpack.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Colors.black.withOpacity(0.6),
-                            Colors.transparent,
-                          ],
+                child: InkWell(
+                  onTap: () {
+                    print('Tapped Tours');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlaceholderScreen(
+                          title: 'Tours',
+                          selectedLanguage: selectedLanguage,
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getToursTitle(selectedLanguage),
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.045,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontFamily: 'Tajawal',
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      width: gridCardWidth,
+                      height:
+                          screenHeight * 0.15, // Dynamic height: 15% of screen
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        image: const DecorationImage(
+                          image: AssetImage(
+                              'assets/images/deals/traveler_backpack.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.6),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _getToursTitle(selectedLanguage),
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
-                            ),
-                            Text(
-                              _getSeeAll(selectedLanguage),
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.03,
-                                color: Colors.white70,
-                                fontFamily: 'Tajawal',
+                              Text(
+                                _getSeeAll(selectedLanguage),
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.03,
+                                  color: Colors.white70,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -339,58 +390,74 @@ class DealsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Container(
-                    height:
-                        screenHeight * 0.15, // Dynamic height: 15% of screen
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: const DecorationImage(
-                        image: AssetImage(
-                            'assets/images/deals/smiling_woman_city.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Colors.black.withOpacity(0.6),
-                            Colors.transparent,
-                          ],
+                child: InkWell(
+                  onTap: () {
+                    print('Tapped Discounts');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlaceholderScreen(
+                          title: 'Discounts',
+                          selectedLanguage: selectedLanguage,
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getDiscountsTitle(selectedLanguage),
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.045,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontFamily: 'Tajawal',
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      width: gridCardWidth,
+                      height:
+                          screenHeight * 0.15, // Dynamic height: 15% of screen
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        image: const DecorationImage(
+                          image: AssetImage(
+                              'assets/images/deals/smiling_woman_city.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.6),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _getDiscountsTitle(selectedLanguage),
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
-                            ),
-                            Text(
-                              _getGetCoupons(selectedLanguage),
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.03,
-                                color: Colors.white70,
-                                fontFamily: 'Tajawal',
+                              Text(
+                                _getGetCoupons(selectedLanguage),
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.03,
+                                  color: Colors.white70,
+                                  fontFamily: 'Tajawal',
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
