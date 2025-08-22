@@ -40,7 +40,8 @@ flutter:
     - assets/images/icons/custom_categories.png
     - assets/images/icons/custom_favorites.png
     - assets/images/icons/custom_plan.png
-  
+    - assets/images/deals/
+    - assets/images/icons/custom_deals.png
   fonts:
     - family: Tajawal
       fonts:

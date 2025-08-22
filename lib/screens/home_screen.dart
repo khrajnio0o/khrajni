@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:khrajni/models/location.dart';
 import 'package:khrajni/models/state.dart';
 import 'package:khrajni/screens/categories_screen.dart';
+import 'package:khrajni/screens/deals_screen.dart';
 import 'package:khrajni/screens/favorites_screen.dart';
 import 'package:khrajni/screens/location_detail_screen.dart';
 import 'package:khrajni/screens/settings_screen.dart';
@@ -146,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         _currentPosition = position;
       });
-      // Optionally, filter nearby locations based on position
     } catch (e) {
       debugPrint('Error getting location: $e');
     }
@@ -267,6 +267,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  String _getDealsLabel(String lang) {
+    switch (lang) {
+      case 'ar':
+        return 'عروض وأساسيات';
+      case 'en':
+        return 'Deals & Essentials';
+      case 'fr':
+        return 'Offres et Essentiels';
+      case 'ru':
+        return 'Сделки и Основы';
+      case 'de':
+        return 'Angebote und Essentials';
+      default:
+        return 'Deals & Essentials';
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -284,7 +301,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search Bar
               TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
@@ -301,7 +317,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onChanged: (_) => _onSearchChanged(),
               ),
               const SizedBox(height: 16),
-              // Search Results Section
               if (_searchController.text.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +349,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // States Results
                           if (filteredStates.isNotEmpty)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,7 +405,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ],
                             ),
                           const SizedBox(height: 16),
-                          // Locations Results
                           if (filteredLocations.isNotEmpty)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,11 +455,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 )
               else
-                // Default Content (Discover States, Nearby, Popular)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Discover States Section
                     Text(
                       widget.selectedLanguage == 'ar'
                           ? 'اكتشف المحافظات'
@@ -509,7 +520,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                     const SizedBox(height: 16),
-                    // Nearby Locations Section
                     if (_locationPermissionGranted && _currentPosition != null)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -571,7 +581,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                     const SizedBox(height: 16),
-                    // Popular Locations Section
                     Text(
                       widget.selectedLanguage == 'ar'
                           ? 'أماكن شائعة'
@@ -656,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
           ),
         ],
-        backgroundColor: isDarkMode ? Colors.transparent : null,
+        backgroundColor: isDarkMode ? Colors.grey[900] : null,
         elevation: isDarkMode ? 0 : 4,
       ),
       body: _selectedIndex == 0
@@ -673,15 +682,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       updateLanguage: widget.updateLanguage,
                       allLocations: allLocations,
                     )
-                  : YourPlanScreen(
-                      selectedLanguage: widget.selectedLanguage,
-                      updateLanguage: widget.updateLanguage,
-                      themeMode: widget.themeMode,
-                      toggleTheme: widget.toggleTheme,
-                      allLocations: allLocations,
-                    ),
+                  : _selectedIndex == 3
+                      ? YourPlanScreen(
+                          selectedLanguage: widget.selectedLanguage,
+                          updateLanguage: widget.updateLanguage,
+                          themeMode: widget.themeMode,
+                          toggleTheme: widget.toggleTheme,
+                          allLocations: allLocations,
+                        )
+                      : DealsScreen(
+                          selectedLanguage: widget.selectedLanguage,
+                          updateLanguage: widget.updateLanguage,
+                          themeMode: widget.themeMode,
+                          toggleTheme: widget.toggleTheme,
+                        ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         elevation: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -703,6 +719,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             icon: Image.asset('assets/images/icons/custom_plan.png',
                 width: 24, height: 24),
             label: _getPlanLabel(widget.selectedLanguage),
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('assets/images/icons/custom_deals.png',
+                width: 24, height: 24),
+            label: _getDealsLabel(widget.selectedLanguage),
           ),
         ],
         currentIndex: _selectedIndex,
